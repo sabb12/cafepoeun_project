@@ -1,0 +1,18 @@
+.footerContainer {
+  border: 1px solid black;
+  width: 100%;
+  display: grid;
+  grid-auto-flow: column;
+  justify-content: center;
+  gap: 10px;
+  overflow: hidden;
+}
+
+.details {
+  font-size: 10px;
+  color: #dcdcdc;
+}
+
+.title {
+  color: #dcdcdc;
+}

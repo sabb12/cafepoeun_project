@@ -1,0 +1,56 @@
+.wrapper {
+  border: 1px solid black;
+  display: grid;
+  grid-auto-flow: row;
+  width: 100%;
+  overflow: hidden;
+}
+
+/* .container {
+  display: grid;
+  grid-auto-flow: row;
+  width: 100%;
+} */
+
+.headerContainer {
+  display: grid;
+  width: 100%;
+  height: 80px;
+  grid-auto-flow: column;
+  justify-content: space-around;
+  align-items: center;
+  border: 1px solid black;
+}
+
+.subHeaderContainer {
+  display: grid;
+  grid-auto-flow: column;
+  justify-content: center;
+  text-align: center;
+  gap: 40px;
+  border: 1px solid black;
+  height: 40px;
+}
+
+.menuContainer {
+  display: grid;
+  grid-auto-flow: column;
+  gap: 10px;
+  /* grid-template-columns: ; */
+}
+
+.menu:hover {
+  font-weight: bold;
+  color: black;
+}
+
+.subMenu {
+  width: 100%;
+  align-self: center;
+}
+
+.logo {
+  display: grid;
+  /* justify-content: center;
+  align-items: center; */
+}
