@@ -22,9 +22,7 @@
 .idContainer,
 .nameContainer,
 .imageContainer,
-.categoryContainer,
-.priceContainer,
-.statusContainer {
+.priceContainer {
   display: grid;
   max-width: 510px;
   grid-auto-flow: column;
@@ -45,10 +43,6 @@
   gap: 10px;
 }
 
-.categoryContainer {
-  grid-template-columns: 100px 1fr 10px 1fr 10px 1fr;
-}
-
 .eventListenerContainer {
   display: flex;
   flex-direction: row;
@@ -60,11 +54,6 @@
   display: flex;
   justify-content: center;
   text-align: center;
-}
-
-.statusRadioGroup {
-  display: grid;
-  grid-auto-flow: column;
 }
 
 .imageList {

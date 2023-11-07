@@ -1,7 +1,13 @@
 import { useState } from "react";
 import styles from "./Header.module.css";
 
-export default function Header() {
+type Props = {
+  onClick?: () => void;
+  logImage: string;
+};
+
+export default function Header(props: Props) {
+  const { logImage, onClick } = props;
   const [isSubHeader, setIsSubHeader] = useState(false);
 
   return (
@@ -9,7 +15,7 @@ export default function Header() {
       {/* <div className={styles.container}> */}
       <div className={styles.headerContainer}>
         <div className={styles.logo}>
-          <img src="/images/cafepoeunLogo.png" alt="" width={100} height={50} />
+          <img src={logImage} alt="" width={100} height={50} />
         </div>
         <div className={styles.menuContainer}>
           <div className={styles.menu}>브랜드이야기</div>

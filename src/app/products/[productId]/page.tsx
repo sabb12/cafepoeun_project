@@ -4,12 +4,6 @@
 import styles from "./page.module.css";
 
 import { useState, useEffect } from "react";
-import { Product } from "@/repositories/products/types";
-import * as ProductsRepository from "@/repositories/products/ProductsRepository";
-import SideBarMenu from "@/app/components/SideBarMenu/SideBarMenu";
-import Header from "@/app/components/Header/Header";
-import { useParams } from "next/navigation";
-import ImageList from "../components/ImageList";
 
 export default function UpdatePage() {
   // params은 문자열이다
@@ -43,8 +37,6 @@ export default function UpdatePage() {
     <div>
       <Header logImage={"/images/handDrip.png"} />
       <div className={styles.bodyContainer}>
-        <SideBarMenu />
-
         <div className={styles.bodyContent}>
           <div className={styles.title}>상품수정</div>
           <div className={styles.updateFormContainer}>
