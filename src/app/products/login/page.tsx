@@ -9,8 +9,11 @@ export default function Login() {
       <div className={styles.loginContainer}>
         <div className={styles.closeButton}>&times;</div>
         <div className={styles.title}>카페포은</div>
-        <input type="text" />
-        <input type="text" />
+        <div className={styles.inputandButton}>
+        <input type="text" className={styles.input}/>
+        <input type="text" className={styles.input}/>
+        <button className={styles.button}>로그인</button>
+        </div>
         <div className={styles.options}>
           <div className={styles.findID}>아이디(이메일)찾기</div>
           {"|"}
