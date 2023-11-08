@@ -18,6 +18,10 @@
         "name": "next"
       }
     ],
+
+    // app 밑에 folder
+    // ../../../ 이렇게 쓰면 경로가 맞아야된다
+    // 모든 페이지에서 다 사용하는애들
     "paths": {
       "@/*": ["./src/*"],
       "@/components/*": ["./src/app/components/*"],

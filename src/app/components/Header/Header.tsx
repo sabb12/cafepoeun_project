@@ -1,6 +1,7 @@
 import { useState } from "react";
 import styles from "./Header.module.css";
 import useUserAgent from "@/app/hooks/useUserAgent";
+import i18n from "@/i18n/locale";
 
 type Props = {
   onClick?: () => void;
@@ -36,7 +37,7 @@ export default function Header(props: Props) {
           <img src={logImage} alt="" width={100} height={50} />
         </div>
         <div className={styles.menuContainer}>
-          <div className={styles.menu}>브랜드이야기</div>
+          <div className={styles.menu}>{i18n.t("success")}</div>
           <div
             className={styles.menu}
             onClick={function () {
