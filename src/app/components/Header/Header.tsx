@@ -1,5 +1,6 @@
 import { useState } from "react";
 import styles from "./Header.module.css";
+import useUserAgent from "@/app/hooks/useUserAgent";
 
 type Props = {
   onClick?: () => void;
@@ -10,7 +11,12 @@ export default function Header(props: Props) {
   const { logImage, onClick } = props;
   const [isSubHeader, setIsSubHeader] = useState(false);
 
+  const { isMobile } = useUserAgent();
+  console.log(`${styles.wrapper} ${isMobile ? styles.mo : ""}`);
   return (
+    // {isMobile && <MobileStyleCompoent /> : <PcStyleComponent/>}
+    // or
+    // <div className={isMobile ? styles.no : ""}
     <div className={styles.wrapper}>
       {/* <div className={styles.container}> */}
       <div className={styles.headerContainer}>

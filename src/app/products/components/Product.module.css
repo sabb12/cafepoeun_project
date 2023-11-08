@@ -1,0 +1,48 @@
+.container * {
+  border: 1px solid black;
+}
+
+.container {
+  width: 200px;
+  height: 200px;
+  position: relative;
+}
+
+.deleteButton {
+  position: absolute;
+  background: white;
+  z-index: 1;
+  top: -10px;
+  right: -5px;
+}
+
+/* inherit = 부모 테그의 속성을 물려 받는다 */
+.image {
+  position: absolute;
+  width: inherit;
+  height: inherit;
+}
+
+.image img {
+  width: inherit;
+  height: inherit;
+}
+
+.detailContainer {
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  background-color: white;
+}
+
+.container.cart {
+  width: 100px;
+  height: 100px;
+}
+
+.container.productList {
+  width: 200px;
+  height: 200px;
+}

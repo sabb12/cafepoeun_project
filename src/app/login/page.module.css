@@ -1,0 +1,118 @@
+.loginWrapper {
+  border: 1px solid black;
+  width: 360px !important;
+  height: 432px;
+  gap: 20px;
+}
+
+.loginContainer {
+  display: grid;
+  grid-auto-flow: row;
+}
+
+.closeButton {
+  display: flex;
+  justify-content: end;
+  padding-right: 10px;
+}
+
+.title {
+  display: flex;
+  justify-content: center;
+  padding-bottom: 10px;
+}
+
+.inputandButton {
+  display: grid;
+  grid-auto-flow: row;
+  justify-content: center;
+  gap: 10px;
+}
+
+.input,
+.button {
+  display: flex;
+  width: 312px;
+  height: 48px;
+}
+
+.button {
+  width: 320px;
+  font-size: 14px;
+  font-weight: bold;
+  color: white;
+  background-color: #00c471;
+  border: none;
+  text-align: center;
+  display: inline-block;
+}
+
+.options {
+  display: grid;
+  grid-auto-flow: column;
+  justify-content: center;
+  padding-top: 10px;
+  gap: 10px;
+}
+
+.options,
+.option {
+  font-size: 12px;
+  text-decoration: underline;
+}
+
+.registerOption {
+  display: grid;
+  grid-auto-flow: column;
+  justify-content: center;
+  gap: 20px;
+}
+
+.loginOptions {
+  display: flex;
+  flex-direction: row;
+}
+
+.loginOptions:before,
+.loginOptions:after {
+  content: "";
+  flex: 1 1;
+  border-bottom: 1px solid #000;
+  margin: auto;
+}
+
+.loginOptions span {
+  height: 100px;
+  width: 100px;
+  border-radius: 50%;
+}
+
+/* .signinLine {
+  position: relative;
+  bottom: -8px;
+  display: block;
+  margin: 0;
+  width: 100%;
+  height: 1px;
+  background-color: #f1f3f5;
+  border: none;
+} */
+
+/* .signinLineTitle {
+  padding: 0 8px;
+  width: 320px;
+  margin-bottom: 16px;
+  font-size: 11px;
+  line-height: 16px;
+  letter-spacing: -0.3px;
+  color: #abb0b5;
+  z-index: 1;
+  background-color: #fff;
+  display: flex;
+  justify-content: center;
+}
+
+.signinLineTitle span {
+  font-weight: inherit;
+  font-style: inherit;
+} */

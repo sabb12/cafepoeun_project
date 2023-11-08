@@ -6,6 +6,10 @@
   overflow: hidden;
 }
 
+.mo {
+  border: 1px solid red;
+}
+
 /* .container {
   display: grid;
   grid-auto-flow: row;
@@ -53,4 +57,26 @@
   display: grid;
   /* justify-content: center;
   align-items: center; */
+}
+
+@media (max-width: 576px) {
+  .wrapper {
+    border: 1px solid red;
+  }
+
+  .headerContainer {
+    grid-auto-flow: row;
+    height: 120px;
+    font-size: 10px;
+  }
+
+  .logo {
+    justify-content: center;
+  }
+
+  .langLoginContainer {
+    font-size: 10px;
+    display: grid;
+    grid-auto-flow: column;
+  }
 }
