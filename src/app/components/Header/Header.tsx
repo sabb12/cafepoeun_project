@@ -14,6 +14,18 @@ export default function Header(props: Props) {
   const { isMobile } = useUserAgent();
   console.log(`${styles.wrapper} ${isMobile ? styles.mo : ""}`);
   return (
+    // class="wrapper"
+    // 그냥 쓰게 되면 무슨 wrapper인지 모른다
+    // css 여러개 있을 경우 a.css 파일에 .wrapper{}가 있고 b.css 파일에도 .wrapper{}가 있다
+    // libray.css 에서도  .wrapper도 있다
+    // 실수로 import 때 중복 될 수 있다 아니면 다른걸 썼던지
+    //  해결 방법은 "productWrapper", "loginWrapper" 로 다 변경 하면된다
+
+    //a.module.css
+    // npm run 시점에 고요하게 변경해준다 .wrapper__DJVKF1
+    // 겹칠 일도 없다
+    // className은 string이다
+
     // {isMobile && <MobileStyleCompoent /> : <PcStyleComponent/>}
     // or
     // <div className={isMobile ? styles.no : ""}
