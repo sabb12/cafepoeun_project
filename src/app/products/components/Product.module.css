@@ -1,48 +1,20 @@
-.container * {
-  border: 1px solid black;
+.wrapper {
+  border: 1px solid #e4e4e4;
+  border-radius: 14px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 200px;
+  height: 250px;
 }
 
 .container {
-  width: 200px;
-  height: 200px;
-  position: relative;
-}
-
-.deleteButton {
-  position: absolute;
-  background: white;
-  z-index: 1;
-  top: -10px;
-  right: -5px;
-}
-
-/* inherit = 부모 테그의 속성을 물려 받는다 */
-.image {
-  position: absolute;
-  width: inherit;
-  height: inherit;
-}
-
-.image img {
-  width: inherit;
-  height: inherit;
-}
-
-.detailContainer {
+  border: 1px solid #e4e4e4;
+  border-radius: 14px;
   display: flex;
   flex-direction: column;
-  position: absolute;
-  bottom: 0;
-  right: 0;
-  background-color: white;
-}
-
-.container.cart {
-  width: 100px;
-  height: 100px;
-}
-
-.container.productList {
-  width: 200px;
-  height: 200px;
+  align-items: center;
+  justify-content: space-between;
+  width: 180px;
+  height: 230px;
 }

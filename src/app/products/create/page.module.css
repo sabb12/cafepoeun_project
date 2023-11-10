@@ -1,61 +1,68 @@
 .bodyContainer {
-  border: 1px solid black;
+  height: 400px;
+  display: grid;
+  grid-auto-flow: column;
+  justify-content: center;
+  align-items: center;
+  grid-template-columns: none;
+}
+
+.wrapper {
   display: grid;
   grid-auto-flow: row;
-  grid-template-columns: 200px 1fr;
-}
-
-.bodyContent {
-  /* border: 1px solid red; */
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  padding: 10px;
-}
-
-.updateFormContainer {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-
-.idContainer,
-.nameContainer,
-.imageContainer,
-.priceContainer {
-  display: grid;
-  max-width: 510px;
-  grid-auto-flow: column;
-  grid-template-columns: 100px 400px;
-  gap: 10px;
-}
-
-.createdUpdatedDateContainer {
-  display: flex;
-}
-
-.createdContainer,
-.updatedDateContainer {
-  display: grid;
-  width: 50%;
-  grid-auto-flow: column;
-  grid-template-columns: 100px 1fr;
-  gap: 10px;
-}
-
-.eventListenerContainer {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
+  grid-template-rows: 1fr 1fr auto 1fr;
+  border: 1px solid black;
+  width: 300px;
+  /* gap: 5px; */
+  /* height: 300px; */
 }
 
 .header {
-  background: #eeeeee;
+  border: 1px solid red;
+  display: grid;
+  grid-auto-flow: column;
+  grid-template-columns: 80px auto;
+  gap: 5px;
+  align-items: center;
+}
+
+.inputStyle {
+  width: 200px;
+  height: 30px;
+}
+
+.imageContainer {
+  border: 1px solid green;
+  display: grid;
+  grid-auto-flow: column;
+  grid-template-columns: 80px auto;
+  gap: 5px;
+  align-items: center;
+}
+.buttonsContainer {
+  display: grid;
+  grid-auto-flow: column;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
+}
+
+.buttonsContainer button {
+  width: 50px;
+}
+
+.list {
+  border: 1px solid black;
+  height: 40px;
   display: flex;
   justify-content: center;
-  text-align: center;
+  align-items: center;
 }
 
 .imageList {
+  border: 1px solid black;
+  height: 100%;
   display: flex;
+  justify-content: center;
+  align-items: center;
 }

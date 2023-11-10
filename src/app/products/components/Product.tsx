@@ -1,37 +1,24 @@
 import styles from "./Product.module.css";
 
-// Product컴포는드에 size라는 이름으로 string타입에 "productList" | "cart"
-type Props = {
-  onClick?: () => void;
-  onDelete?: () => void;
-  size: "productList" | "cart";
-  showCategory: boolean;
-  removable: boolean;
-  product: {
-    name: string;
-    price: number;
-    category: string;
-    imageUrl: string;
-  };
-};
-
-export default function Product(props: Props) {
-  const { size, product, removable, showCategory, onClick, onDelete } = props;
-
+export default function Product() {
   return (
-    <div className={`${styles[size]} ${styles.container}`} onClick={onClick}>
-      {removable && (
-        <div className={styles.deleteButton} onClick={onDelete}>
-          &times;
+    <div className={styles.wrapper}>
+      <div className={styles.container}>
+        <div className={styles.image}>
+          <img
+            src="https://picsum.photos/500/300?random=1"
+            alt=""
+            style={{ width: "180px", height: "120px" }}
+          />
         </div>
-      )}
-      <div className={styles.image}>
-        <img src={product.imageUrl} alt="" />
-      </div>
-      <div className={styles.detailContainer}>
-        {showCategory && <div>{product.category}</div>}
-        <div>{product.price}</div>
-        <div>{product.name}</div>
+        <div className={styles.purchaseCount}>구매 명</div>
+        <div className={styles.name}>아메리카노</div>
+        <div className={styles.price}>￦10_000</div>
+        <div className={styles.buttonsContainer}>
+          <button>삭제</button>
+          <button>수정</button>
+          <button>addToCart</button>
+        </div>
       </div>
     </div>
   );
