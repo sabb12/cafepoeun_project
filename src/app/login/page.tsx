@@ -26,7 +26,9 @@ export default function Login() {
           <div className={`${styles.register}${styles.option}`}>회원가입</div>
         </div>
         <div className={styles.loginOptions}>
-          <span className={styles.loginTitle}>간편로그인</span>
+          <div className={styles.hr}></div>
+          <div className={styles.loginTitle}>간편로그인</div>
+          <div className={styles.hr}></div>
         </div>
         <div className={styles.registerOption}>
           <div className={`${styles.kakotalk}${styles.sigintype}`}>
