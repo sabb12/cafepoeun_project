@@ -3,6 +3,7 @@ export type ProductResponse = {
   id: number;
   name: string;
   imageURL: string;
+  detail?: string;
   price: number;
   createdAt: Date;
   updatedAt: Date;
