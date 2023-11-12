@@ -8,7 +8,7 @@ import {
 } from "@/repositories/products/types";
 
 // superbase 테이블 title 이름이다
-const SCHEMA_NAME = "PRODUCTS";
+const SCHEMA_NAME = "products";
 
 export const mapResponse = (item: ProductResponse): Product => {
   return {
@@ -80,8 +80,7 @@ export function update(product: UpdateProductParam): Promise<void> {
       });
   });
 }
-
-export function deleete(id: number): Promise<void> {
+export function deleteById(id: number): Promise<void> {
   return new Promise(function (resolve) {
     supabase
       .from(SCHEMA_NAME)
@@ -93,3 +92,4 @@ export function deleete(id: number): Promise<void> {
       });
   });
 }
+

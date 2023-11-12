@@ -1,12 +1,20 @@
 /* eslint-disable @next/next/no-img-element */
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import styles from "./ProductList.module.css";
-
-const DUMMY_DATA = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+import { Product } from "@/repositories/products/types";
+import * as ProductsRepository from "@/repositories/products/ProductsRepository";
+// const DUMMY_DATA = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 
 export default function ProductList() {
-  const [productList, setProductList] = useState(DUMMY_DATA);
+  // const [productList, setProductList] = useState(DUMMY_DATA);
+  const [productList, setProductList] = useState<Product[]>([]);
 
+  useEffect(()=> {
+    ProductsRepository.getList().then(function(data){
+      setProductList(data)
+    })
+    
+  },[])
   const addComma = (num: number) => {
     // const str = '1234567891056345349';
     // console.log(str.length);
@@ -21,14 +29,14 @@ export default function ProductList() {
     // console.log(str.substring(str.length - i + 3 , str.length - j + 3));
     // console.log(str.substring(str.length - i + 3, str.length - j + 3));
     // console.log(str.substring(str.length - i + 3, str.length - j + 3);
-
+    
     // let numComma = "";
-    // for (let i = 3, j = 0; j < str.length; i += 3, j += 3) {
+    // for (let i = 3, j = 0; j < num.length; i += 3, j += 3) {
     //   numComma =
-    //     str.substring(str.length - i, str.length - j) +
+    //   num.substring(num.length - i, num.length - j) +
     //     (i === 3 ? "" : ",") +
     //     numComma;
-    //   console.log(numComma);
+    //   console.log("num :", num)
     // }
 
     // const arr = []
@@ -37,12 +45,16 @@ export default function ProductList() {
     // }
     // arr.join()
 
-    return;
+    // return Number(numComma);
+    // const numStr = num.toString();
+    const numComma = num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    return numComma;
   };
 
-  const handleDelete = () => {
-    alert("handleDelete");
-  };
+  // const handleDelete = () => {
+  //   alert("handleDelete");
+  //   ProductsRepository.deleteById(productList.????)
+  // };
   const handleUpdate = () => {
     alert("handleUpdate");
   };
@@ -54,19 +66,25 @@ export default function ProductList() {
     <div className={styles.wrapper}>
       {productList.map((list, i) => {
         return (
-          <div key={i} className={styles.container}>
+          <div key={list.id} className={styles.container}>
             <div className={styles.image}>
               <img
-                src="https://picsum.photos/500/300?random=1"
+                src={list.imageURL}
                 alt=""
                 style={{ width: "180px", height: "120px" }}
               />
             </div>
             <div className={styles.purchaseCount}>구매 명</div>
-            <div className={styles.name}>아메리카노</div>
-            <div className={styles.price}>￦10_000</div>
+            <div className={styles.name}>{list.name}</div>
+            <div className={styles.price} >{addComma(list.price)}</div>
             <div className={styles.buttonsContainer}>
-              <button onClick={handleDelete}>삭제</button>
+              <button onClick={function(){
+                 ProductsRepository.deleteById(list.id).then(function(){
+                  ProductsRepository.getList().then(function(data){
+                    setProductList(data)
+                  })
+                 })
+              }}>삭제</button>
               <button onClick={handleUpdate}>수정</button>
               <button onClick={handleAddToCart}>addToCart</button>
             </div>
