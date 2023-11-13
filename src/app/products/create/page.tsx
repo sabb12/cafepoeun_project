@@ -6,6 +6,8 @@ import styles from "./page.module.css";
 import { useState, useEffect } from "react";
 import Footer from "@/app/components/Footer/Footer";
 import * as ProductsRepository from "@/repositories/products/ProductsRepository";
+import { useRouter } from 'next/navigation';
+import { ROUTE } from "@/routers";
 
 type ProductForm = {
   id: number;
@@ -30,7 +32,7 @@ const DEFAULT_PRODUCT_FROM: ProductForm = {
 export default function Create() {
   const [createForm, setCreateForm] =
     useState<ProductForm>(DEFAULT_PRODUCT_FROM);
-
+    const router = useRouter()
   const onChangeName = (e) => {
     const newCreateForm = { ...createForm, name: e.target.value };
     setCreateForm(newCreateForm);
@@ -58,6 +60,8 @@ export default function Create() {
     const newCreateForm = { ...createForm, updatedAt: new Date() };
     setCreateForm(newCreateForm);
   };
+
+  
 
   return (
     <div>
@@ -100,10 +104,15 @@ export default function Create() {
             />
           </div>
           <div className={styles.buttonsContainer}>
-            <button>취소</button>
+            <button onClick={function(){
+               alert("취소 하게되면 모든 내용이 삭제 되고, product 페이지로 넘어가도 괜찮습니까?")
+              router.push(ROUTE.product)
+            }}>취소</button>
             <button
               onClick={function () {
                 ProductsRepository.create(createForm);
+                alert("추가 하시겠습니까?")
+                router.push(ROUTE.product)
               }}
             >
               저장
