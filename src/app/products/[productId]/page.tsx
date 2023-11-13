@@ -6,59 +6,30 @@ import styles from "./page.module.css";
 import { useState, useEffect } from "react";
 import Footer from "@/app/components/Footer/Footer";
 import * as ProductsRepository from "@/repositories/products/ProductsRepository";
-
-type ProductForm = {
-  id: number;
-  name: string;
-  imageURL: string;
-  detail?: string;
-  price: number;
-  createdAt: Date;
-  updatedAt: Date;
-};
-
-const DEFAULT_PRODUCT_FROM: ProductForm = {
-  id: Date.now(),
-  name: "",
-  imageURL: "",
-  detail: "",
-  price: 0,
-  createdAt: new Date(),
-  updatedAt: new Date(),
-};
+import { useParams } from "next/navigation";
+import { Product } from "@/repositories/products/types";
 
 export default function Create() {
-  const [createForm, setCreateForm] =
-    useState<ProductForm>(DEFAULT_PRODUCT_FROM);
+  const params = useParams();
+  const productId = Number(params.productId) || 0;
+  console.log("productId :", productId);
 
-  const onChangeName = (e) => {
-    const newCreateForm = { ...createForm, name: e.target.value };
-    setCreateForm(newCreateForm);
-  };
-
-  const onChangePrice = (e) => {
-    const newCreateForm = { ...createForm, price: Number(e.target.value) };
-    setCreateForm(newCreateForm);
-  };
-
-  const onChangeImageURL = (e) => {
-    if (!e.target.files) return;
-    const newCreateForm = {
-      ...createForm,
-      imageURL: URL.createObjectURL(e.target.files[0]),
-    };
-    setCreateForm(newCreateForm);
-  };
+  const [updateForm, setUpdateForm] = useState<Product>();
+  console.log("updateForm :", updateForm);
+  useEffect(() => {
+    ProductsRepository.getById(productId).then(function (data) {
+      setUpdateForm(data[0]);
+    });
+  }, [productId]);
 
   const onChangeCreatedAt = (e) => {
-    const newCreateForm = { ...createForm, createdAt: new Date() };
-    setCreateForm(newCreateForm);
+    const newCreateForm = { ...updateForm, createdAt: new Date() };
+    setUpdateForm(newCreateForm);
   };
   const onChangeUpdatedAt = (e) => {
-    const newCreateForm = { ...createForm, updatedAt: new Date() };
-    setCreateForm(newCreateForm);
+    const newCreateForm = { ...updateForm, updatedAt: new Date() };
+    setUpdateForm(newCreateForm);
   };
-
   return (
     <div>
       <Header logImage={"/images/cafepoeunLogo.png"} />
@@ -69,8 +40,14 @@ export default function Create() {
             <input
               className={styles.inputStyle}
               type="text"
-              value={createForm.name}
-              onChange={onChangeName}
+              value={updateForm?.name}
+              onChange={function (e) {
+                const newUpdateForm = {
+                  ...updateForm,
+                  name: e.target.value,
+                };
+                setUpdateForm(newUpdateForm);
+              }}
             />
           </div>
           <div className={`${styles.priceContainer} ${styles.header}`}>
@@ -78,14 +55,20 @@ export default function Create() {
             <input
               className={styles.inputStyle}
               type="number"
-              value={createForm.price}
-              onChange={onChangePrice}
+              value={updateForm?.price}
+              onChange={function (e) {
+                const newUpdateForm = {
+                  ...updateForm,
+                  price: Number(e.target.value),
+                };
+                setUpdateForm(newUpdateForm);
+              }}
             />
           </div>
           <div className={styles.imageContainer}>
             <div className={styles.imageList}>이미지</div>
             <img
-              src={createForm.imageURL}
+              src={updateForm?.imageURL}
               alt=""
               style={{
                 width: 100,
@@ -96,14 +79,25 @@ export default function Create() {
             <input
               className={styles.fileInputStyle}
               type="file"
-              onChange={onChangeImageURL}
+              onChange={function (e) {
+                if (!e.target.files) return;
+                const newUpdateForm = {
+                  ...updateForm,
+                  imageURL: URL.createObjectURL(e.target.files[0]),
+                };
+                setUpdateForm(newUpdateForm);
+              }}
             />
           </div>
           <div className={styles.buttonsContainer}>
             <button>취소</button>
             <button
               onClick={function () {
-                ProductsRepository.create(createForm);
+                const newUpdateForm = {
+                  ...updateForm,
+                  id: Number(updateForm?.id) || 0,
+                };
+                ProductsRepository.update(newUpdateForm);
               }}
             >
               저장

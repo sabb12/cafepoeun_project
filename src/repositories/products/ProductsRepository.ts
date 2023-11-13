@@ -70,6 +70,7 @@ export function create(product: NewProductParam): Promise<void> {
 
 export function update(product: UpdateProductParam): Promise<void> {
   return new Promise(function (resolve) {
+    console.log(product, "updating");
     supabase
       .from(SCHEMA_NAME)
       .update(product)
@@ -92,4 +93,3 @@ export function deleteById(id: number): Promise<void> {
       });
   });
 }
-

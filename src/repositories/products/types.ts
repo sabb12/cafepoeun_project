@@ -1,12 +1,12 @@
 // 조회 할 때 사용 하는 type
 export type ProductResponse = {
-  id: number;
-  name: string;
-  imageURL: string;
+  id?: number;
+  name?: string;
+  imageURL?: string;
   detail?: string;
-  price: number;
-  createdAt: Date;
-  updatedAt: Date;
+  price?: number;
+  createdAt?: Date;
+  updatedAt?: Date;
 };
 
 export type Product = ProductResponse;

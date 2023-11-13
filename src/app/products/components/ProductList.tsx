@@ -9,12 +9,11 @@ export default function ProductList() {
   // const [productList, setProductList] = useState(DUMMY_DATA);
   const [productList, setProductList] = useState<Product[]>([]);
 
-  useEffect(()=> {
-    ProductsRepository.getList().then(function(data){
-      setProductList(data)
-    })
-    
-  },[])
+  useEffect(() => {
+    ProductsRepository.getList().then(function (data) {
+      setProductList(data);
+    });
+  }, []);
   const addComma = (num: number) => {
     // const str = '1234567891056345349';
     // console.log(str.length);
@@ -29,7 +28,7 @@ export default function ProductList() {
     // console.log(str.substring(str.length - i + 3 , str.length - j + 3));
     // console.log(str.substring(str.length - i + 3, str.length - j + 3));
     // console.log(str.substring(str.length - i + 3, str.length - j + 3);
-    
+
     // let numComma = "";
     // for (let i = 3, j = 0; j < num.length; i += 3, j += 3) {
     //   numComma =
@@ -55,9 +54,9 @@ export default function ProductList() {
   //   alert("handleDelete");
   //   ProductsRepository.deleteById(productList.????)
   // };
-  const handleUpdate = () => {
-    alert("handleUpdate");
-  };
+  // const handleUpdate = () => {
+  //   window.location.href = `/products/${product.id}`;
+  // };
   const handleAddToCart = () => {
     alert("handleAddToCart");
   };
@@ -74,18 +73,28 @@ export default function ProductList() {
                 style={{ width: "180px", height: "120px" }}
               />
             </div>
-            <div className={styles.purchaseCount}>구매 명</div>
+            <div className={styles.purchaseCount}>구매 10명</div>
             <div className={styles.name}>{list.name}</div>
-            <div className={styles.price} >{addComma(list.price)}</div>
+            <div className={styles.price}>{addComma(list.price)}</div>
             <div className={styles.buttonsContainer}>
-              <button onClick={function(){
-                 ProductsRepository.deleteById(list.id).then(function(){
-                  ProductsRepository.getList().then(function(data){
-                    setProductList(data)
-                  })
-                 })
-              }}>삭제</button>
-              <button onClick={handleUpdate}>수정</button>
+              <button
+                onClick={function () {
+                  ProductsRepository.deleteById(list.id).then(function () {
+                    ProductsRepository.getList().then(function (data) {
+                      setProductList(data);
+                    });
+                  });
+                }}
+              >
+                삭제
+              </button>
+              <button
+                onClick={function () {
+                  window.location.href = `/products/${list.id}`;
+                }}
+              >
+                수정
+              </button>
               <button onClick={handleAddToCart}>addToCart</button>
             </div>
           </div>
