@@ -2,6 +2,6 @@
 export const ROUTE = {
     home: "/",
     product: "/products",
-    create: "/proudcts/create",
+    create: "/products/create",
     update: "/products/update"
 }

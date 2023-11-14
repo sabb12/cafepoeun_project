@@ -3,12 +3,15 @@ import { useEffect, useState } from "react";
 import styles from "./ProductList.module.css";
 import { Product } from "@/repositories/products/types";
 import * as ProductsRepository from "@/repositories/products/ProductsRepository";
+import { useRouter } from 'next/navigation';
+import { ROUTE } from "@/routers";
+
 // const DUMMY_DATA = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 
 export default function ProductList() {
   // const [productList, setProductList] = useState(DUMMY_DATA);
   const [productList, setProductList] = useState<Product[]>([]);
-
+  const router = useRouter()
   useEffect(() => {
     ProductsRepository.getList().then(function (data) {
       setProductList(data);
@@ -63,6 +66,7 @@ export default function ProductList() {
 
   return (
     <div className={styles.wrapper}>
+      <div className={styles.addButtonContainer}><button onClick={function(){router.push(ROUTE.create)}}>추가</button></div>
       {productList.map((list, i) => {
         return (
           <div key={list.id} className={styles.container}>

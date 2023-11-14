@@ -3,19 +3,23 @@ import { useState } from "react";
 import styles from "./Header.module.css";
 import useUserAgent from "@/app/hooks/useUserAgent";
 import i18n from "@/i18n/locale";
+import { useRouter } from 'next/navigation';
 import { ROUTE } from "@/routers";
+import { PiShoppingCartBold } from "react-icons/pi";
 
 type Props = {
   onClick?: () => void;
   logImage: string;
+  showSearch: boolean;
+  showCart: boolean;
 };
 
 export default function Header(props: Props) {
-  const { logImage, onClick } = props;
+  const { logImage, showSearch, showCart, onClick } = props;
   const [isSubHeader, setIsSubHeader] = useState(false);
-
-  const { isMobile } = useUserAgent();
-  console.log(`${styles.wrapper} ${isMobile ? styles.mo : ""}`);
+  const router = useRouter()
+  // const { isMobile } = useUserAgent();
+  // console.log(`${styles.wrapper} ${isMobile ? styles.mo : ""}`);
   return (
    
 
@@ -26,22 +30,26 @@ export default function Header(props: Props) {
       {/* <div className={styles.container}> */}
       <div className={styles.headerContainer}>
         <div className={styles.logo}>
-          <a href={ROUTE.home}>
-            <img src={logImage} alt="" width={100} height={50} />
-          </a>
+            <img src={logImage} alt="" width={100} height={50} onClick={function(){
+              router.push(ROUTE.home)
+            }}/>
         </div>
         <div className={styles.menuContainer}>
-          <div className={styles.menu}>{i18n.t("success")}</div>
+          {/* <div className={styles.menu}>{i18n.t("success")}</div> */}
+          <div className={styles.menu}>브랜드이야기</div>
           <div
             className={styles.menu}
             onClick={function () {
               setIsSubHeader(!isSubHeader);
             }}
           >
-           <a href={ROUTE.product}>제품소개</a>
+           <div className={styles.menu} onClick={function(){
+            router.push(ROUTE.product)
+           }}>제품소개</div>
           </div>
           <div className={styles.menu}>고객지원</div>
-          <input type="text" />
+          {showSearch && <input type="text" />}
+          {showCart && <div className={styles.menu}><PiShoppingCartBold size={18} /></div>}
         </div>
         <div className={styles.langLoginContainer}>
           <div>KR | EN | CN</div>

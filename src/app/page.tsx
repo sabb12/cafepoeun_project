@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 "use client";
 
 import styles from './page.module.css'
@@ -7,7 +8,12 @@ import Footer from './components/Footer/Footer'
 export default function Home() {
   return (
     <div>
-      <Header logImage={"/images/cafepoeunLogo.png"}/>
+      <Header logImage={"/images/cafepoeunLogo.png"} showSearch={false} showCart={false}/>
+      <div className={styles.bodyContainer}>
+        <div className={styles.imageContainer}>
+          <img src="/images/mainImage.png" alt="" style={{width: "600px"}}/>
+        </div>
+      </div>
       <Footer />
     </div>
   )

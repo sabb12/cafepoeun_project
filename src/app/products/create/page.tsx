@@ -65,7 +65,7 @@ export default function Create() {
 
   return (
     <div>
-      <Header logImage={"/images/cafepoeunLogo.png"} />
+      <Header logImage={"/images/cafepoeunLogo.png"} showSearch={false} showCart={false}/>
       <div className={styles.bodyContainer}>
         <div className={styles.wrapper}>
           <div className={`${styles.nameContainer} ${styles.header}`}>
