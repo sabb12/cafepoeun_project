@@ -1,17 +1,18 @@
 /* eslint-disable @next/next/no-img-element */
+"use client";
 import { useEffect, useState } from "react";
 import styles from "./ProductList.module.css";
 import { Product } from "@/repositories/products/types";
 import * as ProductsRepository from "@/repositories/products/ProductsRepository";
-import { useRouter } from 'next/navigation';
-import { ROUTE } from "@/routers";
+import { useRouter } from "next/navigation";
+import { PROUDCT_ID_KEY, ROUTE } from "@/routers";
 
 // const DUMMY_DATA = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 
 export default function ProductList() {
   // const [productList, setProductList] = useState(DUMMY_DATA);
   const [productList, setProductList] = useState<Product[]>([]);
-  const router = useRouter()
+  const router = useRouter();
   useEffect(() => {
     ProductsRepository.getList().then(function (data) {
       setProductList(data);
@@ -60,46 +61,69 @@ export default function ProductList() {
   // const handleUpdate = () => {
   //   window.location.href = `/products/${product.id}`;
   // };
-  const handleAddToCart = () => {
-    alert("handleAddToCart");
-  };
+  // const handleAddToCart = () => {
+  //   alert("handleAddToCart");
+  // };
 
   return (
     <div className={styles.wrapper}>
-      <div className={styles.addButtonContainer}><button onClick={function(){router.push(ROUTE.create)}}>추가</button></div>
-      {productList.map((list, i) => {
+      <div className={styles.addButtonContainer}>
+        <button
+          onClick={function () {
+            router.push(ROUTE.create);
+          }}
+        >
+          추가
+        </button>
+      </div>
+      {productList.map((product, i) => {
         return (
-          <div key={list.id} className={styles.container}>
+          <div key={product.id} className={styles.container}>
             <div className={styles.image}>
               <img
-                src={list.imageURL}
+                src={product.imageURL}
                 alt=""
                 style={{ width: "180px", height: "120px" }}
               />
             </div>
             <div className={styles.purchaseCount}>구매 10명</div>
-            <div className={styles.name}>{list.name}</div>
-            <div className={styles.price}>{addComma(list.price)}</div>
+            <div className={styles.name}>{product.name}</div>
+            <div className={styles.price}>{addComma(product.price)}</div>
             <div className={styles.buttonsContainer}>
               <button
                 onClick={function () {
-                  ProductsRepository.deleteById(list.id).then(function () {
+                  ProductsRepository.deleteById(product.id).then(function () {
                     ProductsRepository.getList().then(function (data) {
                       setProductList(data);
                     });
                   });
+                  alert("삭제 하시겠습니까?");
                 }}
               >
                 삭제
               </button>
               <button
                 onClick={function () {
-                  window.location.href = `/products/${list.id}`;
+                  alert("수정 하시겠습니까?");
+
+                  router.push(
+                    ROUTE.productDetail.replace(
+                      PROUDCT_ID_KEY,
+                      String(product.id)
+                    )
+                  );
+
+                  // router.push({
+                  //   pathname: "/products/[productId]",
+                  //   query: { productId: product.id },
+                  // });
+
+                  // handleUpdate(product.id)
                 }}
               >
                 수정
               </button>
-              <button onClick={handleAddToCart}>addToCart</button>
+              <button>addToCart</button>
             </div>
           </div>
         );

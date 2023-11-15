@@ -60,3 +60,10 @@
   border: 1.5px solid #e4e4e4;
   width: 100%;
 }
+
+.totalPriceContainer {
+  display: grid;
+  grid-auto-flow: column;
+  justify-content: end;
+  gap: 10px;
+}

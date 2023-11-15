@@ -6,33 +6,55 @@ import styles from "./page.module.css";
 import { useState, useEffect } from "react";
 import Footer from "@/app/components/Footer/Footer";
 import * as ProductsRepository from "@/repositories/products/ProductsRepository";
-import { useParams } from "next/navigation";
-import { Product } from "@/repositories/products/types";
+import { useParams, useRouter } from "next/navigation";
+import {
+  NewProductParam,
+  Product,
+  UpdateProductParam,
+} from "@/repositories/products/types";
+
+import { ROUTE } from "@/routers";
+
+const DEFAULT_PROUDCT_FORM: UpdateProductParam = {
+  name: "",
+  price: 0,
+  imageURL: "",
+  detail: "",
+  createdAt: new Date(),
+  updatedAt: new Date(),
+};
 
 export default function Create() {
   const params = useParams();
   const productId = Number(params.productId) || 0;
+  const router = useRouter();
   console.log("productId :", productId);
 
-  const [updateForm, setUpdateForm] = useState<Product>();
+  const [updateForm, setUpdateForm] =
+    useState<UpdateProductParam>(DEFAULT_PROUDCT_FORM);
   console.log("updateForm :", updateForm);
+
   useEffect(() => {
     ProductsRepository.getById(productId).then(function (data) {
       setUpdateForm(data[0]);
     });
-  }, [productId]);
+  }, []);
 
-  const onChangeCreatedAt = (e) => {
+  const onChangeCreatedAt = (e: React.FormEvent<HTMLInputElement>) => {
     const newCreateForm = { ...updateForm, createdAt: new Date() };
     setUpdateForm(newCreateForm);
   };
-  const onChangeUpdatedAt = (e) => {
+  const onChangeUpdatedAt = (e: React.FormEvent<HTMLInputElement>) => {
     const newCreateForm = { ...updateForm, updatedAt: new Date() };
     setUpdateForm(newCreateForm);
   };
   return (
     <div>
-      <Header logImage={"/images/cafepoeunLogo.png"} showSearch={false} showCart={false}/>
+      <Header
+        logImage={"/images/cafepoeunLogo.png"}
+        showSearch={false}
+        showCart={false}
+      />
       <div className={styles.bodyContainer}>
         <div className={styles.wrapper}>
           <div className={`${styles.nameContainer} ${styles.header}`}>
@@ -90,14 +112,23 @@ export default function Create() {
             />
           </div>
           <div className={styles.buttonsContainer}>
-            <button>취소</button>
+            <button
+              onClick={function () {
+                alert("상세페이지로 이동할까요?");
+                router.push(ROUTE.product);
+              }}
+            >
+              취소
+            </button>
             <button
               onClick={function () {
                 const newUpdateForm = {
                   ...updateForm,
-                  id: Number(updateForm?.id) || 0,
+                  id: Number(productId) || 0,
                 };
                 ProductsRepository.update(newUpdateForm);
+                alert("상품이 수정되었습니다. 상세페이지로 이동할까요?");
+                router.push(ROUTE.product);
               }}
             >
               저장

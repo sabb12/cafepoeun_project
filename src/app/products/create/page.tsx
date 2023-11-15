@@ -6,21 +6,21 @@ import styles from "./page.module.css";
 import { useState, useEffect } from "react";
 import Footer from "@/app/components/Footer/Footer";
 import * as ProductsRepository from "@/repositories/products/ProductsRepository";
-import { useRouter } from 'next/navigation';
+import { useRouter } from "next/navigation";
 import { ROUTE } from "@/routers";
+import { NewProductParam } from "@/repositories/products/types";
+import { uploadProductImage } from "@/app/services/file-upload";
 
-type ProductForm = {
-  id: number;
-  name: string;
-  imageURL: string;
-  detail?: string;
-  price: number;
-  createdAt: Date;
-  updatedAt: Date;
-};
+// type ProductForm = {
+//   name: string;
+//   imageURL: string;
+//   detail?: string;
+//   price: number;
+//   createdAt: Date;
+//   updatedAt: Date;
+// };
 
-const DEFAULT_PRODUCT_FROM: ProductForm = {
-  id: Date.now(),
+const DEFAULT_PRODUCT_FROM: NewProductParam = {
   name: "",
   imageURL: "",
   detail: "",
@@ -31,8 +31,8 @@ const DEFAULT_PRODUCT_FROM: ProductForm = {
 
 export default function Create() {
   const [createForm, setCreateForm] =
-    useState<ProductForm>(DEFAULT_PRODUCT_FROM);
-    const router = useRouter()
+    useState<NewProductParam>(DEFAULT_PRODUCT_FROM);
+  const router = useRouter();
   const onChangeName = (e) => {
     const newCreateForm = { ...createForm, name: e.target.value };
     setCreateForm(newCreateForm);
@@ -48,6 +48,7 @@ export default function Create() {
     const newCreateForm = {
       ...createForm,
       imageURL: URL.createObjectURL(e.target.files[0]),
+      imageFile: e.target.files[0],
     };
     setCreateForm(newCreateForm);
   };
@@ -61,11 +62,23 @@ export default function Create() {
     setCreateForm(newCreateForm);
   };
 
-  
+  const uploadImage = function (file: File) {
+    const filename = `${file.name}-${Date.now()}`;
+    console.log("filename:", filename);
+    uploadProductImage(filename, file)
+      .then(function ({ data, error }) {})
+      .catch(function (error) {
+        console.log("errorrr :", error);
+      });
+  };
 
   return (
     <div>
-      <Header logImage={"/images/cafepoeunLogo.png"} showSearch={false} showCart={false}/>
+      <Header
+        logImage={"/images/cafepoeunLogo.png"}
+        showSearch={false}
+        showCart={false}
+      />
       <div className={styles.bodyContainer}>
         <div className={styles.wrapper}>
           <div className={`${styles.nameContainer} ${styles.header}`}>
@@ -83,7 +96,9 @@ export default function Create() {
               className={styles.inputStyle}
               type="number"
               value={createForm.price}
-              onChange={onChangePrice}
+              onChange={function (e) {
+                onChangePrice(e);
+              }}
             />
           </div>
           <div className={styles.imageContainer}>
@@ -104,15 +119,22 @@ export default function Create() {
             />
           </div>
           <div className={styles.buttonsContainer}>
-            <button onClick={function(){
-               alert("취소 하게되면 모든 내용이 삭제 되고, product 페이지로 넘어가도 괜찮습니까?")
-              router.push(ROUTE.product)
-            }}>취소</button>
             <button
               onClick={function () {
-                ProductsRepository.create(createForm);
-                alert("추가 하시겠습니까?")
-                router.push(ROUTE.product)
+                alert("상세페이지로 이동할까요?");
+                router.push(ROUTE.product);
+              }}
+            >
+              취소
+            </button>
+            <button
+              onClick={function () {
+                // createForm.id = undefined;
+                // uploadImage path를 꺼내서 createForm에 imageURL에 세팅해주고 create에 넘겨준다
+                ProductsRepository.create(createForm).then(function () {
+                  alert("상품이 등록되었습니다. 상세페이지로 이동할까요?");
+                  router.push(ROUTE.product);
+                });
               }}
             >
               저장

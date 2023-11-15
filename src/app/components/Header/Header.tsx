@@ -3,7 +3,7 @@ import { useState } from "react";
 import styles from "./Header.module.css";
 import useUserAgent from "@/app/hooks/useUserAgent";
 import i18n from "@/i18n/locale";
-import { useRouter } from 'next/navigation';
+import { useRouter } from "next/navigation";
 import { ROUTE } from "@/routers";
 import { PiShoppingCartBold } from "react-icons/pi";
 
@@ -17,12 +17,10 @@ type Props = {
 export default function Header(props: Props) {
   const { logImage, showSearch, showCart, onClick } = props;
   const [isSubHeader, setIsSubHeader] = useState(false);
-  const router = useRouter()
+  const router = useRouter();
   // const { isMobile } = useUserAgent();
   // console.log(`${styles.wrapper} ${isMobile ? styles.mo : ""}`);
   return (
-   
-
     // {isMobile && <MobileStyleCompoent /> : <PcStyleComponent/>}
     // or
     // <div className={isMobile ? styles.no : ""}
@@ -30,9 +28,15 @@ export default function Header(props: Props) {
       {/* <div className={styles.container}> */}
       <div className={styles.headerContainer}>
         <div className={styles.logo}>
-            <img src={logImage} alt="" width={100} height={50} onClick={function(){
-              router.push(ROUTE.home)
-            }}/>
+          <img
+            src={logImage}
+            alt=""
+            width={100}
+            height={50}
+            onClick={function () {
+              router.push(ROUTE.home);
+            }}
+          />
         </div>
         <div className={styles.menuContainer}>
           {/* <div className={styles.menu}>{i18n.t("success")}</div> */}
@@ -43,17 +47,37 @@ export default function Header(props: Props) {
               setIsSubHeader(!isSubHeader);
             }}
           >
-           <div className={styles.menu} onClick={function(){
-            router.push(ROUTE.product)
-           }}>제품소개</div>
+            <div
+              className={styles.menu}
+              onClick={function () {
+                router.push(ROUTE.product);
+              }}
+            >
+              제품소개
+            </div>
           </div>
           <div className={styles.menu}>고객지원</div>
           {showSearch && <input type="text" />}
-          {showCart && <div className={styles.menu}><PiShoppingCartBold size={18} /></div>}
+          {showCart && (
+            <div
+              className={styles.menu}
+              onClick={function () {
+                router.push(ROUTE.cart);
+              }}
+            >
+              <PiShoppingCartBold size={18} />
+            </div>
+          )}
         </div>
         <div className={styles.langLoginContainer}>
           <div>KR | EN | CN</div>
-          <button>로그인</button>
+          <button
+            onClick={function () {
+              router.push(ROUTE.login);
+            }}
+          >
+            로그인
+          </button>
         </div>
       </div>
       {isSubHeader && (
