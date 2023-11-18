@@ -12,6 +12,7 @@ import { PROUDCT_ID_KEY, ROUTE } from "@/routers";
 export default function ProductList() {
   // const [productList, setProductList] = useState(DUMMY_DATA);
   const [productList, setProductList] = useState<Product[]>([]);
+  const [currentPage, setCurrentPage] = useState(0);
   const router = useRouter();
   useEffect(() => {
     ProductsRepository.getList().then(function (data) {
@@ -128,6 +129,45 @@ export default function ProductList() {
           </div>
         );
       })}
+      <div className={styles.paginationContainer}>
+        <button>Prev</button>
+        <button>1</button>
+        <button>2</button>
+        <button>3</button>
+        <button>4</button>
+        <button>5</button>
+        <button>6</button>
+        <button>Next</button>
+      </div>
     </div>
   );
 }
+
+/**
+ *
+ * 1. 한페이지에 6개 식 나오기
+ * 2. 버튼개수 => productList.length / 6
+ * 3. 버튼 클릭 했을 때
+ *    - 1 클릭: 0 ~ 5 index
+ *    - 2 클릭: 6 ~ 11 index
+ *    - 3 클릭: 12 ~ 17 index
+ *    - 4 클릭: 18 ~ 23 index
+ *
+ * 4. 규칙                      1        6    0
+ *    - 1 클릭: 0 ~ 5 index => (1 - 1) * 6 => 0   / 6 - 1 => 5  ? 0 + 5 = 5
+ *    - 2 클릭: 6 ~ 11 index => (2 - 1) * 6 => 6  / 6 - 2 => 4  ? 6 + 5 = 11
+ *    - 3 클릭: 12 ~ 17 index => (3 - 1) * 6 => 12 / 6 - 3 = 3  ? 12 + 5 = 17
+ *    - 4 클릭: 18 ~ 23 index => (4 - 1) * 6 => 18 / 6 - 4 = 2  ? 17 + 5 = 22
+ *
+ *      시작인덱스 = (내번호 - 1) * 페이지크기
+ *      끝인덱스 = (시작인덱스 + 5)
+ *
+ */
+
+// 버튼.map()=> {
+//   <button onClick={function(){
+
+//     slice(시작인덱스, 끝인덱스)
+//     setProductList()
+//   }}>{num}</button>
+// }

@@ -10,6 +10,7 @@ import { useRouter } from "next/navigation";
 import { ROUTE } from "@/routers";
 import { NewProductParam } from "@/repositories/products/types";
 import { uploadProductImage } from "@/app/services/file-upload";
+import { omit } from "lodash";
 
 // type ProductForm = {
 //   name: string;
@@ -20,7 +21,11 @@ import { uploadProductImage } from "@/app/services/file-upload";
 //   updatedAt: Date;
 // };
 
-const DEFAULT_PRODUCT_FROM: NewProductParam = {
+type CreateFormType = NewProductParam & {
+  imageFile?: File;
+};
+
+const DEFAULT_PRODUCT_FROM: CreateFormType = {
   name: "",
   imageURL: "",
   detail: "",
@@ -31,7 +36,7 @@ const DEFAULT_PRODUCT_FROM: NewProductParam = {
 
 export default function Create() {
   const [createForm, setCreateForm] =
-    useState<NewProductParam>(DEFAULT_PRODUCT_FROM);
+    useState<CreateFormType>(DEFAULT_PRODUCT_FROM);
   const router = useRouter();
   const onChangeName = (e) => {
     const newCreateForm = { ...createForm, name: e.target.value };
@@ -42,7 +47,8 @@ export default function Create() {
     const newCreateForm = { ...createForm, price: Number(e.target.value) };
     setCreateForm(newCreateForm);
   };
-
+  // 파일 서버를 가져서 서 저장한다
+  // URL.createObjectURL(e.target.files[0]) - 미리보기 하기 위해 사용
   const onChangeImageURL = (e) => {
     if (!e.target.files) return;
     const newCreateForm = {
@@ -50,7 +56,11 @@ export default function Create() {
       imageURL: URL.createObjectURL(e.target.files[0]),
       imageFile: e.target.files[0],
     };
+
     setCreateForm(newCreateForm);
+    // 함수에 return이 없어서 undefined이 나오는 거다.
+    // console.log("uploadImage:", uploadImage(newCreateForm.imageFile));
+    // uploadImage(newCreateForm.imageFile);
   };
 
   const onChangeCreatedAt = (e) => {
@@ -62,14 +72,15 @@ export default function Create() {
     setCreateForm(newCreateForm);
   };
 
-  const uploadImage = function (file: File) {
+  const uploadImage = function (file: File): Promise<string> {
     const filename = `${file.name}-${Date.now()}`;
     console.log("filename:", filename);
-    uploadProductImage(filename, file)
-      .then(function ({ data, error }) {})
-      .catch(function (error) {
-        console.log("errorrr :", error);
-      });
+    return uploadProductImage(filename, file).then(function ({ data, error }) {
+      return data?.path || "";
+    });
+    // .catch(function (error) {
+    //   console.log("errorrr :", error);
+    // });
   };
 
   return (
@@ -131,9 +142,49 @@ export default function Create() {
               onClick={function () {
                 // createForm.id = undefined;
                 // uploadImage path를 꺼내서 createForm에 imageURL에 세팅해주고 create에 넘겨준다
-                ProductsRepository.create(createForm).then(function () {
-                  alert("상품이 등록되었습니다. 상세페이지로 이동할까요?");
-                  router.push(ROUTE.product);
+                // uploadImage(createForm.imageFile);
+                // 어떻게 upload 할까? type
+                /**
+                 * {
+                 * name: hi
+                 * price: 123123
+                 * imageURL: "blob//https://"
+                 * imageFile: {name, update...}
+                 * }
+                 *
+                 */
+                if (!createForm.imageFile) return;
+                // const newCreateForm = {
+                //   ...createForm,
+                //   imageURL: "",
+                // };
+                // event loop, taskQ
+                // 왜 이렇게 하면 안되나?
+                // 왜 써버가 2갠지?
+                // uploadImage(createForm.imageFile) 실행 하고
+                // ProductsRepository.create(omitCreateForm) 실행 하고
+                // 나중에 다 코드가 실행 하고 .then(function (data) {
+                //   newCreateForm.imageURL = `https://pmpxsnzgesvvvetnflve.supabase.co/storage/v1/object/public/products/${data}`;
+                // }); 이 실행 된다
+                // uploadImage(createForm.imageFile).then(function (data) {
+                //   newCreateForm.imageURL = `https://pmpxsnzgesvvvetnflve.supabase.co/storage/v1/object/public/products/${data}`;
+                // });
+                // const omitCreateForm = omit(newCreateForm, "imageFile");
+                // ProductsRepository.create(omitCreateForm).then(function () {
+                //   alert("상품이 등록되었습니다. 상세페이지로 이동할까요?");
+                //   router.push(ROUTE.product);
+                // });
+
+                uploadImage(createForm.imageFile).then(function (data) {
+                  const newCreateForm = {
+                    ...createForm,
+                    imageURL: `https://pmpxsnzgesvvvetnflve.supabase.co/storage/v1/object/public/products/${data}`,
+                  };
+                  const omitCreateForm = omit(newCreateForm, "imageFile");
+                  ProductsRepository.create(omitCreateForm).then(function () {
+                    alert("상품이 등록되었습니다. 상세페이지로 이동할까요?");
+                    router.push(ROUTE.product);
+                  });
                 });
               }}
             >
