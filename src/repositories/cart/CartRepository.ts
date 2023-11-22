@@ -8,34 +8,34 @@ import {
   UpdateCartParam,
 } from "@/repositories/cart/types";
 
-const SCHEMA_NAME = "categories";
+const SCHEMA_NAME = "cart";
 
 export const mapResponse = (item: CartResponse): Cart => {
   return {
     ...item,
   };
 };
-
-export function getList({ depth, parentId }?: GetListParam): Promise<Cart[]> {
+// { productID } = param ES6 공부 객체다
+export function getList(param?: GetListParam): Promise<Cart[]> {
   return new Promise(function (resolve) {
-    let query = supabase.from(SCHEMA_NAME).select();
+    // * column모든걸 가져온다
+    let query = supabase.from(SCHEMA_NAME).select("*, products(*)");
 
-    if (depth) {
-      query = query.eq("depth", depth);
+    if (param?.productID) {
+      query = query.eq("productID", param?.productID);
     }
 
-    if (parentId) {
-      query = query.eq("parentId", parentId);
-    }
+    query
+      .order("createdAt", { ascending: false })
+      .returns<CartResponse[]>()
+      .then(function ({ data }) {
+        if (!data) {
+          resolve([]);
+          return;
+        }
 
-    query.returns<CartResponse[]>().then(function ({ data }) {
-      if (!data) {
-        resolve([]);
-        return;
-      }
-
-      resolve(data.map(mapResponse));
-    });
+        resolve(data.map(mapResponse));
+      });
   });
 }
 
@@ -57,12 +57,12 @@ export function create(category: NewCartParam): Promise<void> {
   });
 }
 
-export function update(updateCart: UpdateCartParam): Promise<void> {
+export function update(id: number, updateCart: UpdateCartParam): Promise<void> {
   return new Promise(function (resolve) {
     supabase
       .from(SCHEMA_NAME)
       .update(updateCart)
-      .eq("id", updateCart.id)
+      .eq("id", id)
       .throwOnError()
       .then(function () {
         resolve();

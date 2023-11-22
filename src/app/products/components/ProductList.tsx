@@ -4,16 +4,24 @@ import { useEffect, useState } from "react";
 import styles from "./ProductList.module.css";
 import { Product } from "@/repositories/products/types";
 import * as ProductsRepository from "@/repositories/products/ProductsRepository";
+import * as Cartrepository from "@/repositories/cart/CartRepository";
 import { useRouter } from "next/navigation";
-import { PROUDCT_ID_KEY, ROUTE } from "@/routers";
-
+import { CART_ID_KEY, PROUDCT_ID_KEY, ROUTE } from "@/routers";
+import {
+  Cart,
+  CartResponse,
+  NewCartParam,
+  addtoCartParam,
+} from "@/repositories/cart/types";
 // const DUMMY_DATA = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 
 export default function ProductList() {
   // const [productList, setProductList] = useState(DUMMY_DATA);
   const [productList, setProductList] = useState<Product[]>([]);
-  const [currentPage, setCurrentPage] = useState(0);
+  const [current, setCurrent] = useState(1);
+
   const router = useRouter();
+
   useEffect(() => {
     ProductsRepository.getList().then(function (data) {
       setProductList(data);
@@ -66,6 +74,23 @@ export default function ProductList() {
   //   alert("handleAddToCart");
   // };
 
+  const pageSize = 5;
+  const buttonSize = 5;
+
+  const productListPerPage = Math.ceil(productList.length / pageSize);
+
+  const pageStartIndex = (current - 1) * pageSize;
+  const pageEndIndex = pageStartIndex + pageSize;
+  const newProductList = productList.slice(pageStartIndex, pageEndIndex);
+
+  const buttonList = [];
+  const buttonStart = Math.max(0, current - 1 - Math.floor(buttonSize / 2));
+  const buttonEnd = Math.min(buttonStart + buttonSize, productListPerPage);
+
+  for (let i = 0; i < productListPerPage; i++) {
+    buttonList.push(i + 1);
+  }
+
   return (
     <div className={styles.wrapper}>
       <div className={styles.addButtonContainer}>
@@ -77,9 +102,52 @@ export default function ProductList() {
           추가
         </button>
       </div>
-      {productList.map((product, i) => {
+      {newProductList.map((product, i) => {
         return (
-          <div key={product.id} className={styles.container}>
+          <div
+            key={product.id}
+            className={styles.container}
+            onClick={function () {
+              // /cart 는 목록
+              // /cart/id는 사세로 볼때
+              /**
+               *  클릭한 제품 카트에 저장 된다.
+               *  만약에 카트에 해당 id가 존재 하면
+               *    -alert("이미 담은 재품 입니다")
+               *  else
+               *  저장은 CartRespository를 호출해서 저장을 한다
+               *    -confirm("장바구니로 이동 하시겠습니까?")
+               *       아니요:
+               *       예: cart 페이지로 이동
+               */
+              Cartrepository.getList({ productID: product.id }).then(function (
+                data
+              ) {
+                const hasProductID: boolean = data.length !== 0;
+                if (hasProductID) {
+                  -alert("이미 담은 재품 입니다");
+                } else {
+                  const newCart = {
+                    productID: product.id,
+                    count: 1,
+                    checked: false,
+                  };
+                  //  Cartrepository.create(newCart) = 비동기
+                  // 위에 then  을 안 하면 끝나기전에 다음줄이 실행 된다
+                  // 그래서 끝나고 실행 하고 싶다 하면 .then을 해서 진행을 한다
+                  //   Cartrepository.create(newCart).
+                  // javascript promise event loop task queue
+                  Cartrepository.create(newCart).then(function () {
+                    // 읽기 쉬운 코드가 되어야 된다. 그래서 javascript언어라고 한다
+                    const toCart = confirm("장바구니로 이동 하시겠습니까?");
+                    if (toCart) {
+                      router.push(ROUTE.cart);
+                    }
+                  });
+                }
+              });
+            }}
+          >
             <div className={styles.image}>
               <img
                 src={product.imageURL}
@@ -130,14 +198,39 @@ export default function ProductList() {
         );
       })}
       <div className={styles.paginationContainer}>
-        <button>Prev</button>
-        <button>1</button>
-        <button>2</button>
-        <button>3</button>
-        <button>4</button>
-        <button>5</button>
-        <button>6</button>
-        <button>Next</button>
+        <div>
+          <button
+            onClick={function () {
+              setCurrent(function (prevPage) {
+                return Math.max(prevPage - 1, 1);
+              });
+            }}
+          >
+            Prev
+          </button>
+          {buttonList.slice(buttonStart, buttonEnd).map((btn, i) => {
+            return (
+              <button
+                key={i}
+                onClick={function () {
+                  console.log("btn :", btn);
+                  setCurrent(btn);
+                }}
+              >
+                {btn}
+              </button>
+            );
+          })}
+          <button
+            onClick={function () {
+              setCurrent(function (prevPage) {
+                return Math.min(prevPage + 1, productListPerPage);
+              });
+            }}
+          >
+            Next
+          </button>
+        </div>
       </div>
     </div>
   );
