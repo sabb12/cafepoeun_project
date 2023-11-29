@@ -8,35 +8,87 @@ import styles from "./page.module.css";
 import * as CartRepository from "@/repositories/cart/CartRepository";
 import { Cart } from "@/repositories/cart/types";
 import { useEffect, useState } from "react";
+import { PiNavigationArrowDuotone } from "react-icons/pi";
 
 export default function Cart() {
   const [cartList, setCartList] = useState<Cart[]>([]);
-  console.log(cartList);
-
   useEffect(function () {
     CartRepository.getList().then(function (data) {
       setCartList(data);
     });
   }, []);
   // TODO. count랑 같이 계산 하기 cart.products.count +
-  const totalPrice = cartList.reduce((acc, cur) => acc + cur.products.price, 0);
+  const checkedTotalPrice = cartList.reduce((acc, cur) => {
+    if (cur.checked) {
+      return acc + cur.products.price * cur.count;
+    }
+    return acc;
+  }, 0);
+  const totalPrice = cartList.reduce(
+    (acc, cur) => acc + cur.products.price * cur.count,
+    0
+  );
+
+  const addComma = (num: number) => {
+    const numComma = num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    return numComma;
+  };
 
   return (
     <div>
-      <Header
-        logImage={"/images/cafepoeunLogo.png"}
-        showSearch={false}
-        showCart={true}
-      />
+      <Header showSearch={false} showCart={true} />
       <div className={styles.wrapper}>
         <div className={styles.container}>
           <div className={styles.title}>장바구니</div>
           <div className={`${styles.subTitleContainer} ${styles.subContainer}`}>
             <div className={styles.subTitle}>
-              <input type="checkbox" />
+              <input
+                type="checkbox"
+                name={"selectAll"}
+                checked={cartList.every((cart) => cart.checked)}
+                onChange={function (e) {
+                  if (e.target.name === "selectAll") {
+                    const newCart = { checked: e.target.checked };
+                    cartList.map((cart, i) => {
+                      return CartRepository.update(cart.id, newCart).then(
+                        function () {
+                          CartRepository.getList().then(function (data) {
+                            setCartList(data);
+                          });
+                        }
+                      );
+                    });
+                  } else {
+                    const newCart = { checked: false };
+                    cartList.map((cart, i) => {
+                      return CartRepository.update(cart.id, newCart).then(
+                        function () {
+                          CartRepository.getList().then(function (data) {
+                            setCartList(data);
+                          });
+                        }
+                      );
+                    });
+                  }
+                }}
+              />
               전체선택
             </div>
-            <button>선택삭제</button>
+            <button
+              onClick={function () {
+                cartList.filter((cart, i) => {
+                  if (cart.checked) {
+                    return CartRepository.deleteById(cart.id).then(function () {
+                      CartRepository.getList().then(function (data) {
+                        setCartList(data);
+                      });
+                    });
+                  }
+                });
+              }}
+            >
+              선택삭제
+            </button>
           </div>
           <hr className={styles.hr} />
           {cartList.map((cart, i) => {
@@ -45,7 +97,32 @@ export default function Cart() {
                 <div
                   className={`${styles.headerContainer} ${styles.subContainer}`}
                 >
-                  <input type="checkbox" />
+                  <input
+                    type="checkbox"
+                    checked={cart.checked}
+                    onChange={function (e) {
+                      if (e.target.checked) {
+                        const newCart = { checked: true };
+                        CartRepository.update(cart.id, newCart).then(
+                          function () {
+                            CartRepository.getList().then(function (data) {
+                              console.log("data :", data);
+                              setCartList(data);
+                            });
+                          }
+                        );
+                      } else {
+                        const newCart = { checked: false };
+                        CartRepository.update(cart.id, newCart).then(
+                          function () {
+                            CartRepository.getList().then(function (data) {
+                              setCartList(data);
+                            });
+                          }
+                        );
+                      }
+                    }}
+                  />
                   <div
                     className={styles.deleteX}
                     onClick={function () {
@@ -73,19 +150,38 @@ export default function Cart() {
                       className={styles.minusButton}
                       onClick={function () {
                         // 0 되면 막는다
-                        const newCart = { count: cart.count - 1 };
-                        CartRepository.update(cart.id, newCart).then(
-                          function () {
-                            CartRepository.getList().then(function (data) {
-                              setCartList(data);
-                            });
-                          }
-                        );
+                        if (cart.count > 1) {
+                          const newCart = { count: cart.count - 1 };
+                          CartRepository.update(cart.id, newCart).then(
+                            function () {
+                              CartRepository.getList().then(function (data) {
+                                setCartList(data);
+                              });
+                            }
+                          );
+                        }
                       }}
                     >
                       &lt;
                     </div>
-                    <input type="text" value={cart.count} />
+                    <input
+                      type="text"
+                      value={cart.count}
+                      onChange={function (e) {
+                        const countValue = Number(e.target.value);
+                        if (countValue >= 1) {
+                          const newCart = { count: countValue };
+                          console.log("newCart: ", newCart);
+                          CartRepository.update(cart.id, newCart).then(
+                            function () {
+                              CartRepository.getList().then(function (data) {
+                                setCartList(data);
+                              });
+                            }
+                          );
+                        }
+                      }}
+                    />
                     <div
                       className={styles.plusButton}
                       onClick={function () {
@@ -103,7 +199,7 @@ export default function Cart() {
                     </div>
                   </div>
                   <div className={styles.price}>
-                    {cart.products.price * cart.count}원
+                    {addComma(cart.products.price * cart.count)}원
                   </div>
                 </div>
               </div>
@@ -111,7 +207,13 @@ export default function Cart() {
           })}
           <hr className={styles.hr} />
           <div className={styles.totalPriceContainer}>
-            <div className={styles.totalPrice}>총 {totalPrice}금액</div>
+            <div className={styles.totalPrice}>
+              총{" "}
+              {cartList.some((cart) => cart.checked)
+                ? addComma(checkedTotalPrice)
+                : addComma(totalPrice)}
+              금액
+            </div>
             <button>구매하기</button>
           </div>
         </div>

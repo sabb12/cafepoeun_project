@@ -7,10 +7,9 @@ import Product from "./components/ProductList";
 import styles from "./page.module.css";
 
 export default function HomePage() {
-
   return (
     <div>
-      <Header logImage={"/images/cafepoeunLogo.png"} showSearch={true} showCart={true}/>
+      <Header showSearch={false} showCart={false} />
       <div className={styles.productList}>
         <Product />
       </div>

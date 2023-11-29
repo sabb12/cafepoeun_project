@@ -1,25 +1,28 @@
 /* eslint-disable @next/next/no-img-element */
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import styles from "./Header.module.css";
 import useUserAgent from "@/app/hooks/useUserAgent";
-import i18n from "@/i18n/locale";
+import i18n, { setLocale } from "@/i18n/locale";
 import { useRouter } from "next/navigation";
 import { ROUTE } from "@/routers";
 import { PiShoppingCartBold } from "react-icons/pi";
 
 type Props = {
   onClick?: () => void;
-  logImage: string;
   showSearch: boolean;
   showCart: boolean;
 };
 
 export default function Header(props: Props) {
-  const { logImage, showSearch, showCart, onClick } = props;
+  const { showSearch, showCart, onClick } = props;
   const [isSubHeader, setIsSubHeader] = useState(false);
+  const [isLanguageChanged, setIsLanguageChanged] = useState<
+    "ko" | "en" | "cn"
+  >("ko");
   const router = useRouter();
   // const { isMobile } = useUserAgent();
   // console.log(`${styles.wrapper} ${isMobile ? styles.mo : ""}`);
+
   return (
     // {isMobile && <MobileStyleCompoent /> : <PcStyleComponent/>}
     // or
@@ -29,7 +32,7 @@ export default function Header(props: Props) {
       <div className={styles.headerContainer}>
         <div className={styles.logo}>
           <img
-            src={logImage}
+            src="/images/cafepoeunLogo.png"
             alt=""
             width={100}
             height={50}
@@ -40,7 +43,7 @@ export default function Header(props: Props) {
         </div>
         <div className={styles.menuContainer}>
           {/* <div className={styles.menu}>{i18n.t("success")}</div> */}
-          <div className={styles.menu}>브랜드이야기</div>
+          <div className={styles.menu}>{i18n.t("brandStory")}</div>
           <div
             className={styles.menu}
             onClick={function () {
@@ -53,10 +56,10 @@ export default function Header(props: Props) {
                 router.push(ROUTE.product);
               }}
             >
-              제품소개
+              {i18n.t("menu")}
             </div>
           </div>
-          <div className={styles.menu}>고객지원</div>
+          <div className={styles.menu}> {i18n.t("cs")}</div>
           {showSearch && <input type="text" />}
           {showCart && (
             <div
@@ -70,22 +73,50 @@ export default function Header(props: Props) {
           )}
         </div>
         <div className={styles.langLoginContainer}>
-          <div>KR | EN | CN</div>
+          <div
+            className={styles.koreanLang}
+            onClick={function () {
+              setLocale("ko");
+              setIsLanguageChanged("ko");
+            }}
+          >
+            KR
+          </div>
+          <div
+            className={styles.englishLang}
+            onClick={function () {
+              setLocale("en");
+              localStorage.getItem("en");
+              setIsLanguageChanged("en");
+            }}
+          >
+            EN
+          </div>
+          <div
+            className={styles.chineseLang}
+            onClick={function () {
+              setLocale("cn");
+              setIsLanguageChanged("cn");
+              localStorage.getItem("lang");
+            }}
+          >
+            CN
+          </div>
           <button
             onClick={function () {
               router.push(ROUTE.login);
             }}
           >
-            로그인
+            {i18n.t("login")}
           </button>
         </div>
       </div>
       {isSubHeader && (
         <div className={styles.subHeaderContainer}>
-          <div className={styles.subMenu}>커피</div>
-          <div className={styles.subMenu}>디카페인</div>
-          <div className={styles.subMenu}>애이드</div>
-          <div className={styles.subMenu}>스무디</div>
+          <div className={styles.subMenu}>{i18n.t("coffee")}</div>
+          <div className={styles.subMenu}>{i18n.t("decaf")}</div>
+          <div className={styles.subMenu}>{i18n.t("ade")}</div>
+          <div className={styles.subMenu}>{i18n.t("smoothie")}</div>
         </div>
       )}
       {/* </div> */}
