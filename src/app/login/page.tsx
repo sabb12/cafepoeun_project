@@ -20,16 +20,16 @@ export default function Login() {
 
   // const client_id = `${process.env.REACT_APP_RESTAPI_KAKAO_APP_KEY}`;
   // const REDIRECT_URI = `${process.env.REACT_APP_KAKAO_REDIRECT_URL}`;
-  const REST_API_KEY = "5f0f40121208712bb0ce30b602d07efb";
-  const REDIRECT_URI = window.location.origin;
+  // const REST_API_KEY = "5f0f40121208712bb0ce30b602d07efb";
+  // const REDIRECT_URI = window.location.origin;
 
-  // local로 들어 갈 때
-  // http://localhost:3000 연결
-  // cafepoeun-project.vercel.app로 들어 갈 때
-  // https://cafepoeun-project.vercel.app/ 연결
+  // // local로 들어 갈 때
+  // // http://localhost:3000 연결
+  // // cafepoeun-project.vercel.app로 들어 갈 때
+  // // https://cafepoeun-project.vercel.app/ 연결
 
-  const kakaoUrl = `https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=${REST_API_KEY}&redirect_uri=${REDIRECT_URI}&response_type=code`;
-  console.log("url: ", kakaoUrl);
+  // const kakaoUrl = `https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=${REST_API_KEY}&redirect_uri=${REDIRECT_URI}&response_type=code`;
+  // console.log("url: ", kakaoUrl);
   // 페이지가 rendering 될 때
   // URL에 query 파람에 code가 있으면
   // 로그인 판단
@@ -66,6 +66,10 @@ export default function Login() {
           <div
             className={`${styles.kakotalk}${styles.sigintype}`}
             onClick={function () {
+              const REST_API_KEY = "5f0f40121208712bb0ce30b602d07efb";
+              const REDIRECT_URI = window.location.origin;
+              const kakaoUrl = `https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=${REST_API_KEY}&redirect_uri=${REDIRECT_URI}&response_type=code`;
+              console.log("url: ", kakaoUrl);
               window.location.href = kakaoUrl;
             }}
           >
