@@ -53,7 +53,7 @@ export function getById(id: number): Promise<Product[]> {
 }
 
 export function create(product: NewProductParam): Promise<void> {
-  return new Promise(function (resolve) {
+  return new Promise<void>(function (resolve) {
     console.log(product, "hello");
     supabase
       .from(SCHEMA_NAME)
@@ -71,13 +71,13 @@ export function create(product: NewProductParam): Promise<void> {
   });
 }
 
-export function update(product: UpdateProductParam): Promise<void> {
+export function update(id: number, product: UpdateProductParam): Promise<void> {
   return new Promise(function (resolve) {
     console.log(product, "updating");
     supabase
       .from(SCHEMA_NAME)
       .update(product)
-      .eq("id", product.id)
+      .eq("id", id)
       .throwOnError()
       .then(function () {
         resolve();

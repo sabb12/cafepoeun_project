@@ -38,18 +38,18 @@ export default function Create() {
   const [createForm, setCreateForm] =
     useState<CreateFormType>(DEFAULT_PRODUCT_FROM);
   const router = useRouter();
-  const onChangeName = (e) => {
+  const onChangeName = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newCreateForm = { ...createForm, name: e.target.value };
     setCreateForm(newCreateForm);
   };
 
-  const onChangePrice = (e) => {
+  const onChangePrice = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newCreateForm = { ...createForm, price: Number(e.target.value) };
     setCreateForm(newCreateForm);
   };
   // 파일 서버를 가져서 서 저장한다
   // URL.createObjectURL(e.target.files[0]) - 미리보기 하기 위해 사용
-  const onChangeImageURL = (e) => {
+  const onChangeImageURL = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (!e.target.files) return;
     const newCreateForm = {
       ...createForm,
@@ -63,11 +63,11 @@ export default function Create() {
     // uploadImage(newCreateForm.imageFile);
   };
 
-  const onChangeCreatedAt = (e) => {
+  const onChangeCreatedAt = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newCreateForm = { ...createForm, createdAt: new Date() };
     setCreateForm(newCreateForm);
   };
-  const onChangeUpdatedAt = (e) => {
+  const onChangeUpdatedAt = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newCreateForm = { ...createForm, updatedAt: new Date() };
     setCreateForm(newCreateForm);
   };

@@ -35,8 +35,8 @@ export const LANGUAGE_SET: { [key: string]: keySet } = {
     add: "添加",
   },
 };
-
-let currentLocale = "ko";
+const storedLocale = localStorage.getItem("lang");
+let currentLocale = storedLocale || "ko";
 
 const i18n = {
   t: function (key: string) {

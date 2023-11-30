@@ -40,7 +40,7 @@ export function getList(param?: GetListParam): Promise<Cart[]> {
 }
 
 export function create(category: NewCartParam): Promise<void> {
-  return new Promise(function (resolve) {
+  return new Promise<void>(function (resolve) {
     supabase
       .from(SCHEMA_NAME)
       .insert(category)

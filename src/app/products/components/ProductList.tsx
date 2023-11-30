@@ -19,6 +19,7 @@ import i18n from "@/i18n/locale";
 export default function ProductList() {
   // const [productList, setProductList] = useState(DUMMY_DATA);
   const [productList, setProductList] = useState<Product[]>([]);
+  const [searProductList, setSearchProductList] = useState("");
   const [cartList, setCartList] = useState<Cart[]>([]);
   const [current, setCurrent] = useState(1);
   const [isLanguageChanged, setIsLanguageChanged] = useState<
@@ -112,113 +113,139 @@ export default function ProductList() {
         >
           {i18n.t("add")}
         </button>
+        <div className={styles.searchbarContainer}>
+          <input
+            type="text"
+            value={searProductList}
+            onChange={function (e) {
+              setSearchProductList(e.target.value);
+            }}
+          />
+          <button
+            onClick={function () {
+              setSearchProductList(searProductList);
+              // const searchProductByName = productList.filter((itemList) =>
+              //   itemList.name.includes(searProductList)
+              // );
+              // setProductList(searchProductByName);
+            }}
+          >
+            Search
+          </button>
+        </div>
       </div>
-      {newProductList.map((product, i) => {
-        return (
-          <div key={product.id} className={styles.container}>
-            <div className={styles.image}>
-              <img
-                src={product.imageURL}
-                alt=""
-                style={{ width: "180px", height: "120px" }}
-              />
-            </div>
-            <div className={styles.purchaseCount}>구매 10명</div>
-            <div className={styles.name}>{product.name}</div>
-            <div className={styles.price}>{addComma(product.price)}</div>
-            <div className={styles.buttonsContainer}>
-              <button
-                onClick={function () {
-                  cartList.filter((cart) => {
-                    if (product.id === cart.productID) {
-                      CartRepository.deleteById(cart.id).then(function () {
-                        CartRepository.getList().then(function (data) {
-                          setCartList(data);
-                        });
-                        ProductsRepository.deleteById(product.id).then(
-                          function () {
-                            ProductsRepository.getList().then(function (data) {
-                              setProductList(data);
-                            });
-                          }
-                        );
-                      });
-                    }
-                  });
-                }}
-              >
-                삭제
-              </button>
-              <button
-                onClick={function () {
-                  alert("수정 하시겠습니까?");
-
-                  router.push(
-                    ROUTE.productDetail.replace(
-                      PROUDCT_ID_KEY,
-                      String(product.id)
-                    )
-                  );
-
-                  // router.push({
-                  //   pathname: "/products/[productId]",
-                  //   query: { productId: product.id },
-                  // });
-
-                  // handleUpdate(product.id)
-                }}
-              >
-                수정
-              </button>
-              <button
-                onClick={function () {
-                  // /cart 는 목록
-                  // /cart/id는 사세로 볼때
-                  /**
-                   *  클릭한 제품 카트에 저장 된다.
-                   *  만약에 카트에 해당 id가 존재 하면
-                   *    -alert("이미 담은 재품 입니다")
-                   *  else
-                   *  저장은 CartRespository를 호출해서 저장을 한다
-                   *    -confirm("장바구니로 이동 하시겠습니까?")
-                   *       아니요:
-                   *       예: cart 페이지로 이동
-                   */
-                  CartRepository.getList({ productID: product.id }).then(
-                    function (data) {
-                      const hasProductID: boolean = data.length !== 0;
-                      if (hasProductID) {
-                        alert("이미 담은 재품 입니다");
-                      } else {
-                        const newCart = {
-                          productID: product.id,
-                          count: 1,
-                          checked: false,
-                        };
-                        //  Cartrepository.create(newCart) = 비동기
-                        // 위에 then  을 안 하면 끝나기전에 다음줄이 실행 된다
-                        // 그래서 끝나고 실행 하고 싶다 하면 .then을 해서 진행을 한다
-                        //   Cartrepository.create(newCart).
-                        // javascript promise event loop task queue
-                        CartRepository.create(newCart).then(function () {
-                          // 읽기 쉬운 코드가 되어야 된다. 그래서 javascript언어라고 한다
-                          const toCart =
-                            confirm("장바구니로 이동 하시겠습니까?");
-                          if (toCart) {
-                            router.push(ROUTE.cart);
-                          }
+      {newProductList
+        .filter((productNames) =>
+          productNames.name.toLocaleLowerCase().includes(searProductList)
+        )
+        .map((product, i) => {
+          return (
+            <div key={product.id} className={styles.container}>
+              <div className={styles.image}>
+                <img
+                  src={product.imageURL}
+                  alt=""
+                  style={{ width: "180px", height: "120px" }}
+                />
+              </div>
+              <div className={styles.purchaseCount}>구매 10명</div>
+              <div className={styles.name}>{product.name}</div>
+              <div className={styles.price}>{addComma(product.price)}</div>
+              <div className={styles.buttonsContainer}>
+                <button
+                  onClick={function () {
+                    cartList.filter((cart) => {
+                      if (product.id === cart.productID) {
+                        CartRepository.deleteById(cart.id).then(function () {
+                          CartRepository.getList().then(function (data) {
+                            setCartList(data);
+                          });
+                          ProductsRepository.deleteById(product.id).then(
+                            function () {
+                              ProductsRepository.getList().then(function (
+                                data
+                              ) {
+                                setProductList(data);
+                              });
+                            }
+                          );
                         });
                       }
-                    }
-                  );
-                }}
-              >
-                addToCart
-              </button>
+                    });
+                  }}
+                >
+                  삭제
+                </button>
+                <button
+                  onClick={function () {
+                    alert("수정 하시겠습니까?");
+
+                    router.push(
+                      ROUTE.productDetail.replace(
+                        PROUDCT_ID_KEY,
+                        String(product.id)
+                      )
+                    );
+
+                    // router.push({
+                    //   pathname: "/products/[productId]",
+                    //   query: { productId: product.id },
+                    // });
+
+                    // handleUpdate(product.id)
+                  }}
+                >
+                  수정
+                </button>
+                <button
+                  onClick={function () {
+                    // /cart 는 목록
+                    // /cart/id는 사세로 볼때
+                    /**
+                     *  클릭한 제품 카트에 저장 된다.
+                     *  만약에 카트에 해당 id가 존재 하면
+                     *    -alert("이미 담은 재품 입니다")
+                     *  else
+                     *  저장은 CartRespository를 호출해서 저장을 한다
+                     *    -confirm("장바구니로 이동 하시겠습니까?")
+                     *       아니요:
+                     *       예: cart 페이지로 이동
+                     */
+                    CartRepository.getList({ productID: product.id }).then(
+                      function (data) {
+                        const hasProductID: boolean = data.length !== 0;
+                        if (hasProductID) {
+                          alert("이미 담은 재품 입니다");
+                        } else {
+                          const newCart = {
+                            productID: product.id,
+                            count: 1,
+                            checked: false,
+                          };
+                          //  Cartrepository.create(newCart) = 비동기
+                          // 위에 then  을 안 하면 끝나기전에 다음줄이 실행 된다
+                          // 그래서 끝나고 실행 하고 싶다 하면 .then을 해서 진행을 한다
+                          //   Cartrepository.create(newCart).
+                          // javascript promise event loop task queue
+                          CartRepository.create(newCart).then(function () {
+                            // 읽기 쉬운 코드가 되어야 된다. 그래서 javascript언어라고 한다
+                            const toCart =
+                              confirm("장바구니로 이동 하시겠습니까?");
+                            if (toCart) {
+                              router.push(ROUTE.cart);
+                            }
+                          });
+                        }
+                      }
+                    );
+                  }}
+                >
+                  addToCart
+                </button>
+              </div>
             </div>
-          </div>
-        );
-      })}
+          );
+        })}
       <div className={styles.paginationContainer}>
         <div>
           <button

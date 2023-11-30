@@ -118,13 +118,17 @@ export default function Create() {
             </button>
             <button
               onClick={function () {
-                const newUpdateForm = {
-                  ...updateForm,
-                  id: Number(productId) || 0,
-                };
-                ProductsRepository.update(newUpdateForm);
-                alert("상품이 수정되었습니다. 상세페이지로 이동할까요?");
-                router.push(ROUTE.product);
+                // const newUpdateForm = {
+                //   ...updateForm,
+                //   id: Number(productId) || 0,
+                // };
+                ProductsRepository.update(
+                  Number(productId) || 0,
+                  updateForm
+                ).then(function () {
+                  alert("상품이 수정되었습니다. 상세페이지로 이동할까요?");
+                  router.push(ROUTE.product);
+                });
               }}
             >
               저장

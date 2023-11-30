@@ -16,9 +16,7 @@ type Props = {
 export default function Header(props: Props) {
   const { showSearch, showCart, onClick } = props;
   const [isSubHeader, setIsSubHeader] = useState(false);
-  const [isLanguageChanged, setIsLanguageChanged] = useState<
-    "ko" | "en" | "cn"
-  >("ko");
+
   const router = useRouter();
   // const { isMobile } = useUserAgent();
   // console.log(`${styles.wrapper} ${isMobile ? styles.mo : ""}`);
@@ -77,7 +75,7 @@ export default function Header(props: Props) {
             className={styles.koreanLang}
             onClick={function () {
               setLocale("ko");
-              setIsLanguageChanged("ko");
+              window.location.reload();
             }}
           >
             KR
@@ -86,8 +84,7 @@ export default function Header(props: Props) {
             className={styles.englishLang}
             onClick={function () {
               setLocale("en");
-              localStorage.getItem("en");
-              setIsLanguageChanged("en");
+              window.location.reload();
             }}
           >
             EN
@@ -96,8 +93,7 @@ export default function Header(props: Props) {
             className={styles.chineseLang}
             onClick={function () {
               setLocale("cn");
-              setIsLanguageChanged("cn");
-              localStorage.getItem("lang");
+              window.location.reload();
             }}
           >
             CN
