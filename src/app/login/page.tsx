@@ -11,9 +11,12 @@ export default function Login() {
   const code = params.get("code");
   const grant_type = "https://kauth.kakao.com/oauth/token";
   console.log("code: ", code);
-  if (code) {
-    localStorage.setItem("kakaoCode", code);
-  }
+
+  useEffect(function () {
+    if (code) {
+      localStorage.setItem("kakaoCode", code);
+    }
+  }, []);
 
   // const client_id = `${process.env.REACT_APP_RESTAPI_KAKAO_APP_KEY}`;
   // const REDIRECT_URI = `${process.env.REACT_APP_KAKAO_REDIRECT_URL}`;
