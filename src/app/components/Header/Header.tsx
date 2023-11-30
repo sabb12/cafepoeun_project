@@ -2,7 +2,7 @@
 import { useEffect, useState } from "react";
 import styles from "./Header.module.css";
 import useUserAgent from "@/app/hooks/useUserAgent";
-import i18n, { setLocale } from "@/i18n/locale";
+import i18n, { Locale, setLocale } from "@/i18n/locale";
 import { useRouter } from "next/navigation";
 import { ROUTE } from "@/routers";
 import { PiShoppingCartBold } from "react-icons/pi";
@@ -18,6 +18,14 @@ export default function Header(props: Props) {
   const [isSubHeader, setIsSubHeader] = useState(false);
 
   const router = useRouter();
+
+  useEffect(function () {
+    const storedLocale = localStorage.getItem("lang");
+    if (storedLocale) {
+      setLocale(storedLocale as Locale);
+    }
+  }, []);
+
   // const { isMobile } = useUserAgent();
   // console.log(`${styles.wrapper} ${isMobile ? styles.mo : ""}`);
 

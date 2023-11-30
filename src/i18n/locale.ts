@@ -1,6 +1,8 @@
-type keySet = { [key: string]: string };
+type KeySet = { [key: string]: string };
 
-export const LANGUAGE_SET: { [key: string]: keySet } = {
+export type Locale = "ko" | "en" | "cn";
+
+export const LANGUAGE_SET: { [key: string]: KeySet } = {
   ko: {
     brandStory: "브랜드이야기",
     menu: "제품소개",
@@ -35,8 +37,8 @@ export const LANGUAGE_SET: { [key: string]: keySet } = {
     add: "添加",
   },
 };
-const storedLocale = localStorage.getItem("lang");
-let currentLocale = storedLocale || "ko";
+// const storedLocale = localStorage.getItem("lang");
+let currentLocale = "ko";
 
 const i18n = {
   t: function (key: string) {
