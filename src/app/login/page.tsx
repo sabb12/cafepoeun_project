@@ -7,12 +7,12 @@ import { useState, useEffect } from "react";
 // const {Kakao} = window;
 
 export default function Login() {
-  const params = new URL(location.toString()).searchParams;
-  const code = params.get("code");
   const grant_type = "https://kauth.kakao.com/oauth/token";
-  console.log("code: ", code);
 
   useEffect(function () {
+    const params = new URL(location.toString()).searchParams;
+    const code = params.get("code");
+    console.log("code: ", code);
     if (code) {
       localStorage.setItem("kakaoCode", code);
     }
