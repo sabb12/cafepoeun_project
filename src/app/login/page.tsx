@@ -21,7 +21,12 @@ export default function Login() {
   // const client_id = `${process.env.REACT_APP_RESTAPI_KAKAO_APP_KEY}`;
   // const REDIRECT_URI = `${process.env.REACT_APP_KAKAO_REDIRECT_URL}`;
   const REST_API_KEY = "5f0f40121208712bb0ce30b602d07efb";
-  const REDIRECT_URI = "http://localhost:3000/login";
+  const REDIRECT_URI = window.location.origin;
+
+  // local로 들어 갈 때
+  // http://localhost:3000 연결
+  // cafepoeun-project.vercel.app로 들어 갈 때
+  // https://cafepoeun-project.vercel.app/ 연결
 
   const kakaoUrl = `https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=${REST_API_KEY}&redirect_uri=${REDIRECT_URI}&response_type=code`;
   console.log("url: ", kakaoUrl);
