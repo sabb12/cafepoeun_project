@@ -154,6 +154,7 @@ export default function ProductList() {
               <div className={styles.buttonsContainer}>
                 <button
                   onClick={function () {
+                    // filter().foreach => cartrepository.
                     cartList.filter((cart) => {
                       if (product.id === cart.productID) {
                         CartRepository.deleteById(cart.id).then(function () {

@@ -16,6 +16,22 @@ type Props = {
 export default function Header(props: Props) {
   const { showSearch, showCart, onClick } = props;
   const [isSubHeader, setIsSubHeader] = useState(false);
+  const [isLogin, setIsLogin] = useState(false);
+
+  // page가 rendering 됬을 때
+  // 로그인이 안 되어 있을 때
+  // 로그인 버튼이 보여야 한다
+  // 로그인 됬어 있을 때 로그인이 되어 있다
+  // 로그인 버튼이 안보여야 한다
+  useEffect(function () {
+    // 로그인여부 = localStorage에서 꺼내서 판단
+    const isLogin = !!localStorage.getItem("kakaoCode");
+    // 로그인 안되어 있을때 => 로그인여부가 false일때
+    setIsLogin(isLogin);
+    // 로그인 버튼이 보인다
+    // 로그인 되어 있을때 => 로그인여부가 true일때
+    // 로그인 버튼이 안보인다
+  }, []);
 
   const router = useRouter();
 
@@ -106,13 +122,15 @@ export default function Header(props: Props) {
           >
             CN
           </div>
-          <button
-            onClick={function () {
-              router.push(ROUTE.login);
-            }}
-          >
-            {i18n.t("login")}
-          </button>
+          {!isLogin && (
+            <button
+              onClick={function () {
+                router.push(ROUTE.login);
+              }}
+            >
+              {i18n.t("login")}
+            </button>
+          )}
         </div>
       </div>
       {isSubHeader && (

@@ -67,10 +67,12 @@ export default function Login() {
             className={`${styles.kakotalk}${styles.sigintype}`}
             onClick={function () {
               const REST_API_KEY = "5f0f40121208712bb0ce30b602d07efb";
-              const REDIRECT_URI = window.location.origin;
+              const REDIRECT_URI = `${window.location.origin}/kakao-login`;
               const kakaoUrl = `https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=${REST_API_KEY}&redirect_uri=${REDIRECT_URI}&response_type=code`;
-              console.log("url: ", kakaoUrl);
+
               window.location.href = kakaoUrl;
+              // localHost = https://localHost:3000/kakao-login
+              // 배포경우 = https://cafepoeun-project.vercel.app/kakao-login
             }}
           >
             <img
