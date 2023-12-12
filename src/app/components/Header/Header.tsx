@@ -7,16 +7,16 @@ import { useRouter } from "next/navigation";
 import { ROUTE } from "@/routers";
 import { PiShoppingCartBold } from "react-icons/pi";
 
-type Props = {
-  onClick?: () => void;
-  showSearch: boolean;
-  showCart: boolean;
-};
+// type Props = {
+//   onClick?: () => void;
+//   showSearch: boolean;
+//   showCart: boolean;
+// };
 
-export default function Header(props: Props) {
-  const { showSearch, showCart, onClick } = props;
-  const [isSubHeader, setIsSubHeader] = useState(false);
+export default function Header() {
+  // const { showSearch, showCart, onClick } = props;
   const [isLogin, setIsLogin] = useState(false);
+  const [isSubMenuVisible, setIsSubMenuVisible] = useState(false);
 
   // page가 rendering 됬을 때
   // 로그인이 안 되어 있을 때
@@ -42,6 +42,13 @@ export default function Header(props: Props) {
     }
   }, []);
 
+  const menuList = [
+    { menu: i18n.t("brandStory") },
+    { menu: i18n.t("menu") },
+    { menu: i18n.t("cs") },
+    // Add more menu items as needed
+  ];
+
   // const { isMobile } = useUserAgent();
   // console.log(`${styles.wrapper} ${isMobile ? styles.mo : ""}`);
 
@@ -56,33 +63,37 @@ export default function Header(props: Props) {
           <img
             src="/images/cafepoeunLogo.png"
             alt=""
-            width={100}
-            height={50}
+            width={70}
+            height={70}
             onClick={function () {
               router.push(ROUTE.home);
             }}
           />
-        </div>
-        <div className={styles.menuContainer}>
-          {/* <div className={styles.menu}>{i18n.t("success")}</div> */}
-          <div className={styles.menu}>{i18n.t("brandStory")}</div>
           <div
-            className={styles.menu}
+            className={styles.logoTitle}
             onClick={function () {
-              setIsSubHeader(!isSubHeader);
+              router.push(ROUTE.home);
             }}
           >
-            <div
-              className={styles.menu}
-              onClick={function () {
-                router.push(ROUTE.product);
-              }}
-            >
-              {i18n.t("menu")}
-            </div>
+            {i18n.t("cafeFirstName")} <br /> {i18n.t("cafeSecondName")}
           </div>
-          <div className={styles.menu}> {i18n.t("cs")}</div>
-          {showSearch && <input type="text" />}
+        </div>
+        <div className={styles.menuContainer}>
+          {menuList.map((title, i) => {
+            return (
+              <div
+                key={i}
+                className={styles.menu}
+                onClick={() => setIsSubMenuVisible(!isSubMenuVisible)}
+                // onMouseEnter={() => setIsSubMenuVisible(true)}
+                // onMouseLeave={() => setIsSubMenuVisible(false)}
+              >
+                {title.menu}
+              </div>
+            );
+          })}
+
+          {/* {showSearch && <input type="text" />}
           {showCart && (
             <div
               className={styles.menu}
@@ -92,56 +103,67 @@ export default function Header(props: Props) {
             >
               <PiShoppingCartBold size={18} />
             </div>
-          )}
+          )} */}
         </div>
         <div className={styles.langLoginContainer}>
-          <div
-            className={styles.koreanLang}
-            onClick={function () {
-              setLocale("ko");
-              window.location.reload();
-            }}
-          >
-            KR
-          </div>
-          <div
-            className={styles.englishLang}
-            onClick={function () {
-              setLocale("en");
-              window.location.reload();
-            }}
-          >
-            EN
-          </div>
-          <div
-            className={styles.chineseLang}
-            onClick={function () {
-              setLocale("cn");
-              window.location.reload();
-            }}
-          >
-            CN
-          </div>
-          {!isLogin && (
-            <button
+          <div className={styles.langContainer}>
+            <div
+              className={styles.lang}
               onClick={function () {
-                router.push(ROUTE.login);
+                setLocale("ko");
+                window.location.reload();
               }}
             >
-              {i18n.t("login")}
-            </button>
-          )}
+              KR
+            </div>
+            <div
+              className={styles.lang}
+              onClick={function () {
+                setLocale("en");
+                window.location.reload();
+              }}
+            >
+              EN
+            </div>
+            <div
+              className={styles.lang}
+              onClick={function () {
+                setLocale("cn");
+                window.location.reload();
+              }}
+            >
+              CN
+            </div>
+          </div>
+          <div className={styles.buttonContainer}>
+            {!isLogin && (
+              <button
+                className={styles.loginButton}
+                onClick={function () {
+                  router.push(ROUTE.login);
+                }}
+              >
+                {i18n.t("logIn")}
+              </button>
+            )}
+          </div>
         </div>
       </div>
-      {isSubHeader && (
+      {isSubMenuVisible && (
         <div className={styles.subHeaderContainer}>
-          <div className={styles.subMenu}>{i18n.t("coffee")}</div>
+          <div
+            className={styles.subMenu}
+            onClick={() => {
+              router.push(ROUTE.product);
+            }}
+          >
+            {i18n.t("coffee")}
+          </div>
           <div className={styles.subMenu}>{i18n.t("decaf")}</div>
           <div className={styles.subMenu}>{i18n.t("ade")}</div>
           <div className={styles.subMenu}>{i18n.t("smoothie")}</div>
         </div>
       )}
-      {/* </div> */}
     </div>
   );
 }

@@ -84,49 +84,62 @@ export default function Create() {
   };
 
   return (
-    <div>
-      <Header showSearch={false} showCart={false} />
+    <div className={styles.mainPageWrapper}>
+      <div className={styles.headerContainer}>
+        <Header />
+      </div>
       <div className={styles.bodyContainer}>
+        <div className={styles.titleContainer}>
+          <div className={styles.title}>제품 추가</div>
+        </div>
         <div className={styles.wrapper}>
-          <div className={`${styles.nameContainer} ${styles.header}`}>
-            <div className={styles.list}>상품명</div>
-            <input
-              className={styles.inputStyle}
-              type="text"
-              value={createForm.name}
-              onChange={onChangeName}
-            />
-          </div>
-          <div className={`${styles.priceContainer} ${styles.header}`}>
-            <div className={styles.list}>가격</div>
-            <input
-              className={styles.inputStyle}
-              type="number"
-              value={createForm.price}
-              onChange={function (e) {
-                onChangePrice(e);
-              }}
-            />
-          </div>
-          <div className={styles.imageContainer}>
-            <div className={styles.imageList}>이미지</div>
-            <img
-              src={createForm.imageURL}
-              alt=""
-              style={{
-                width: 100,
-                height: 100,
-                border: "1px solid red",
-              }}
-            />
-            <input
-              className={styles.fileInputStyle}
-              type="file"
-              onChange={onChangeImageURL}
-            />
+          <div className={styles.container}>
+            <div className={styles.innerContainer}>
+              <div className={`${styles.nameContainer} ${styles.header}`}>
+                <div className={styles.list}>상품명</div>
+                <input
+                  className={styles.inputStyle}
+                  type="text"
+                  placeholder="제품 명 입력 해주세요"
+                  value={createForm.name}
+                  onChange={onChangeName}
+                />
+              </div>
+              <div className={`${styles.priceContainer} ${styles.header}`}>
+                <div className={styles.list}>가격</div>
+                <input
+                  className={styles.inputStyle}
+                  type="number"
+                  placeholder="제품 가격 입력 해주세요"
+                  value={createForm.price}
+                  onChange={function (e) {
+                    onChangePrice(e);
+                  }}
+                />
+              </div>
+              <div className={styles.imageContainer}>
+                <div className={styles.imageList}>이미지</div>
+                <img
+                  src={createForm.imageURL}
+                  alt=""
+                  className={styles.previewImg}
+                />
+                <input
+                  className={styles.fileInput}
+                  type="file"
+                  onChange={onChangeImageURL}
+                />
+                {createForm.imageURL ? null : (
+                  <label className={styles.imageLabel} htmlFor="file">
+                    사진 업로드
+                  </label>
+                )}
+              </div>
+            </div>
           </div>
           <div className={styles.buttonsContainer}>
             <button
+              className={styles.button}
               onClick={function () {
                 alert("상세페이지로 이동할까요?");
                 router.push(ROUTE.product);
@@ -135,6 +148,7 @@ export default function Create() {
               취소
             </button>
             <button
+              className={styles.button}
               onClick={function () {
                 // createForm.id = undefined;
                 // uploadImage path를 꺼내서 createForm에 imageURL에 세팅해주고 create에 넘겨준다
@@ -187,10 +201,7 @@ export default function Create() {
               저장
             </button>
           </div>
-          <div
-            className={styles.dateContainer}
-            style={{ visibility: "hidden" }}
-          >
+          <div className={styles.dateContainer}>
             <div className={styles.createdAt} onChange={onChangeCreatedAt}>
               생성일
             </div>
@@ -200,7 +211,9 @@ export default function Create() {
           </div>
         </div>
       </div>
-      <Footer />
+      <div className={styles.footerContainer}>
+        <Footer />
+      </div>
     </div>
   );
 }

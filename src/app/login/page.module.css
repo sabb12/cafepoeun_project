@@ -1,13 +1,24 @@
 .loginWrapper {
-  border: 1px solid black;
-  width: 360px !important;
-  height: 432px;
-  gap: 20px;
+}
+
+.loginInnerWrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 41px;
+  gap: 55px;
 }
 
 .loginContainer {
+  border: 1px solid #dcdcdc;
   display: grid;
   grid-auto-flow: row;
+  align-items: center;
+  width: 389px;
+  height: 540px;
+  box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px,
+    rgba(60, 64, 67, 0.15) 0px 2px 6px 2px;
 }
 
 .closeButton {
@@ -20,24 +31,64 @@
   display: flex;
   justify-content: center;
   padding-bottom: 10px;
+  font-size: 33px;
+  font-weight: bold;
 }
 
 .inputandButton {
   display: grid;
   grid-auto-flow: row;
   justify-content: center;
-  gap: 10px;
+  gap: 25px;
 }
 
-.input,
-.button {
-  display: flex;
+.inputWrapper {
+  justify-content: center;
+  align-items: center;
+  border-radius: 7px;
+  height: 99px;
+  box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px,
+    rgba(60, 64, 67, 0.15) 0px 2px 6px 2px;
+}
+
+.inputContainer {
+  border: 1px solid #dcdcdc;
+  display: grid;
+  grid-auto-flow: column;
+  justify-content: center;
+  align-items: center;
+  gap: 7px;
   width: 312px;
   height: 48px;
 }
 
+.emailInput {
+  border-top-left-radius: 7px;
+  border-top-right-radius: 7px;
+}
+
+.passwordInput {
+  border-bottom-left-radius: 7px;
+  border-bottom-right-radius: 7px;
+}
+
+.input {
+  border: none;
+  width: 237px;
+  height: 20px;
+}
+.input::placeholder {
+  color: #c0c0c0;
+}
+
+.input:focus {
+  outline-style: none;
+  box-shadow: none;
+}
+
 .button {
-  width: 320px;
+  width: 313px;
+  height: 48px;
   font-size: 14px;
   font-weight: bold;
   color: white;
@@ -45,6 +96,7 @@
   border: none;
   text-align: center;
   display: inline-block;
+  border-radius: 7px;
 }
 
 .options {
@@ -53,6 +105,7 @@
   justify-content: center;
   padding-top: 10px;
   gap: 10px;
+  color: #c0c0c0;
 }
 
 .options,
@@ -68,7 +121,7 @@
   gap: 20px;
 }
 
-.loginOptions{
+.loginOptions {
   display: flex;
   flex-direction: row;
   justify-content: center;
@@ -76,18 +129,97 @@
   height: 80px;
 }
 
-.hr{
+.hr {
   border: 1px solid #f1f3f5;
   width: 100px;
   height: 0px;
 }
 
-.loginTitle{
-  /* border: 1px solid #abb0b5; */
+.loginTitle {
   background-color: white;
   display: flex;
   justify-content: center;
-  color: #abb0b5;
+  color: #c0c0c0;
   font-size: 11px;
   width: 70px;
+}
+
+/**/
+.circleContainer {
+  position: relative;
+  height: 23px;
+  width: 23px;
+}
+
+/*passwork icon*/
+.circle {
+  width: 6px;
+  height: 6px;
+  border: 1.5px solid #c0c0c0;
+  border-radius: 50%;
+  transform: translate(7px, 4px);
+}
+
+.halfCircle {
+  width: 12px;
+  height: 3px;
+  border: 1.5px solid #c0c0c0;
+  border-top-left-radius: 40px;
+  border-top-right-radius: 40px;
+  position: relative;
+  border-bottom: none;
+  transform: translate(4px, 5px);
+}
+
+/*lock icon*/
+.halfUCircle {
+  width: 3px;
+  width: 2px;
+  height: 5px;
+  border: 1.5px solid #c0c0c0;
+  border-top-left-radius: 100px;
+  border-top-right-radius: 100px;
+  position: relative;
+  border-bottom: none;
+  transform: translate(9px, 3px);
+}
+
+.lockCircle {
+  width: 10px;
+  height: 10px;
+  border: 1.5px solid #c0c0c0;
+  border-radius: 50%;
+  transform: translate(5px, 2px);
+}
+
+.dot {
+  width: 2px;
+  height: 2px;
+  background: #c0c0c0;
+  border-radius: 50%;
+  /* position: absolute; */
+  transform: translate(10.5px, -7.4px);
+}
+
+.verticalLine {
+  width: 1px;
+  height: 4px;
+  /* position: absolute; */
+  background-color: #c0c0c0;
+  transform: translate(11.1px, -8px);
+}
+
+.copyrightContainer {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.copyrightTitle {
+  font-size: 23px;
+  font-weight: bold;
+}
+
+.sigintype {
+  cursor: pointer;
 }

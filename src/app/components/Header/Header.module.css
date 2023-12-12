@@ -1,5 +1,5 @@
 .wrapper {
-  border: 1px solid black;
+  border-bottom: 1px solid #beb9b6;
   display: grid;
   grid-auto-flow: row;
   width: 100%;
@@ -23,7 +23,6 @@
   grid-auto-flow: column;
   justify-content: space-around;
   align-items: center;
-  border: 1px solid black;
 }
 
 .subHeaderContainer {
@@ -32,15 +31,16 @@
   justify-content: center;
   text-align: center;
   gap: 40px;
-  border: 1px solid black;
-  height: 40px;
+  border: 1px solid #dbdbdb;
+  height: 31px;
 }
 
 .menuContainer {
   display: grid;
   grid-auto-flow: column;
   gap: 10px;
-  /* grid-template-columns: ; */
+  cursor: pointer;
+  font-size: 20px;
 }
 
 .menu:hover {
@@ -51,12 +51,48 @@
 .subMenu {
   width: 100%;
   align-self: center;
+  cursor: pointer;
 }
 
 .logo {
   display: grid;
-  /* justify-content: center;
-  align-items: center; */
+  cursor: pointer;
+  grid-auto-flow: column;
+  align-items: center;
+}
+
+.logoTitle {
+  font-size: 22px;
+  font-weight: bold;
+}
+
+.langLoginContainer {
+  display: grid;
+  grid-auto-flow: row;
+  gap: 5px;
+}
+
+.langContainer {
+  display: flex;
+  gap: 10px;
+  cursor: pointer;
+}
+
+.buttonContainer {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.loginButton {
+  background: #fff;
+  cursor: pointer;
+  color: #363636;
+  border: 1px solid #dbdbdb;
+  font-size: 1rem;
+  border-radius: 4px;
+  box-shadow: none;
+  width: auto;
+  padding: 8px;
 }
 
 @media (max-width: 576px) {

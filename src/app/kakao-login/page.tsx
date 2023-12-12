@@ -10,6 +10,8 @@ export default function KakaoLoginPage() {
     if (code) {
       localStorage.setItem("kakaoCode", code);
       location.href = "/";
+      //   절대주소랑         상대주소 차이
+      // '/kakao-login' and 'kakao-login'
     }
   }, []);
 

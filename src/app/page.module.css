@@ -1,5 +1,11 @@
-.bodyContainer{
-    display: flex;
-    justify-content: center;
-    align-items: center;
+.mainPageWrapper {
+  display: grid;
+  grid-auto-flow: row;
+  grid-auto-rows: 112px 462px;
+}
+
+.bodyContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }

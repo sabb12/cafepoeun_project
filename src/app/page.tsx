@@ -7,8 +7,8 @@ import Footer from "./components/Footer/Footer";
 
 export default function Home() {
   return (
-    <div>
-      <Header showSearch={false} showCart={false} />
+    <div className={styles.mainPageWrapper}>
+      <Header />
       <div className={styles.bodyContainer}>
         <div className={styles.imageContainer}>
           <img src="/images/mainImage.png" alt="" style={{ width: "600px" }} />
