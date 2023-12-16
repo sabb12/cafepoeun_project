@@ -6,6 +6,7 @@ export const ROUTE = {
   productDetail: "/products/[productId]",
   create: "/products/create",
   update: "/products/update",
+  customerservice: "/customerservice",
   cart: "/cart",
   login: "/login",
 };

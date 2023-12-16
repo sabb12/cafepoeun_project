@@ -43,9 +43,9 @@ export default function Header() {
   }, []);
 
   const menuList = [
-    { menu: i18n.t("brandStory") },
-    { menu: i18n.t("menu") },
-    { menu: i18n.t("cs") },
+    { menu: i18n.t("brandStory"), path: "" },
+    { menu: i18n.t("menu"), path: "" },
+    { menu: i18n.t("cs"), path: ROUTE.customerservice },
     // Add more menu items as needed
   ];
 
@@ -84,7 +84,12 @@ export default function Header() {
               <div
                 key={i}
                 className={styles.menu}
-                onClick={() => setIsSubMenuVisible(!isSubMenuVisible)}
+                onClick={() => {
+                  if (title.path) {
+                    router.push(title.path);
+                  }
+                  setIsSubMenuVisible(!isSubMenuVisible);
+                }}
                 // onMouseEnter={() => setIsSubMenuVisible(true)}
                 // onMouseLeave={() => setIsSubMenuVisible(false)}
               >

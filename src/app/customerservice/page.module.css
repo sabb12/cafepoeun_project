@@ -1,0 +1,99 @@
+.mainPageWrapper {
+  display: grid;
+  grid-auto-flow: row;
+  grid-auto-rows: 112px 462px;
+}
+
+.wrapper {
+  border: 1px solid black;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.container {
+  border: 1px solid #dbdbdb;
+  border-radius: 7px;
+  display: flex;
+  flex-direction: column;
+  padding: 5px;
+  gap: 14px;
+  box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px,
+    rgba(60, 64, 67, 0.15) 0px 2px 6px 2px;
+}
+
+.introduction {
+  font-size: 16px;
+}
+
+.subContainer {
+  /* border: 1px solid black; */
+  display: grid;
+  grid-auto-flow: row;
+  gap: 10px;
+  padding: 5px;
+}
+
+.inputValueContainer {
+  /* border: 1px solid black; */
+  display: flex;
+  padding: 1px;
+  gap: 5px;
+}
+
+.emailInputValueContainer,
+.contactInputContainer {
+  display: flex;
+  gap: 5px;
+}
+
+.select {
+  border: 1px solid #dbdbdb;
+  text-align: center;
+  width: 175px;
+}
+
+.feedbackinput {
+  width: 86%;
+  height: 130px;
+}
+
+.subject {
+  border: 1px solid #dbdbdb;
+  border-radius: 7px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 75px;
+  font-size: 12px;
+  font-weight: bold;
+}
+
+.buttonContainer {
+  display: flex;
+  justify-content: center;
+  justify-items: center;
+  gap: 10px;
+}
+
+.input {
+  border: 1px solid #dbdbdb;
+  /* border: none; */
+}
+
+.input:focus {
+  outline-style: none;
+  box-shadow: none;
+}
+
+.button {
+  background: #fff;
+  cursor: pointer;
+  color: #363636;
+  border: 1px solid #dbdbdb;
+  font-size: 1rem;
+  border-radius: 4px;
+  box-shadow: none;
+  width: auto;
+  padding: 8px;
+}

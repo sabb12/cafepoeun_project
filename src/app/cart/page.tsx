@@ -7,16 +7,21 @@ import Header from "../components/Header/Header";
 import styles from "./page.module.css";
 import * as CartRepository from "@/repositories/cart/CartRepository";
 import { Cart } from "@/repositories/cart/types";
-import { useEffect, useState } from "react";
+import { use, useEffect, useState } from "react";
 import { PiNavigationArrowDuotone } from "react-icons/pi";
+
+function fetchCartList() {
+  return CartRepository.getList();
+}
 
 export default function Cart() {
   const [cartList, setCartList] = useState<Cart[]>([]);
-  useEffect(function () {
-    CartRepository.getList().then(function (data) {
-      setCartList(data);
-    });
-  }, []);
+  // const productList: Cart[] = use(fetchCartList());
+  // useEffect(function () {
+  //   CartRepository.getList().then(function (data) {
+  //     setCartList(data);
+  //   });
+  // }, []);
   // TODO. count랑 같이 계산 하기 cart.products.count +
   const checkedTotalPrice = cartList.reduce((acc, cur) => {
     if (cur.checked) {
@@ -34,6 +39,9 @@ export default function Cart() {
     return numComma;
   };
 
+  const isCheck =
+    cartList.length === 0 ? false : cartList.every((cart) => cart.checked);
+
   return (
     <div className={styles.mainPageWrapper}>
       <Header />
@@ -48,7 +56,7 @@ export default function Cart() {
                 <input
                   type="checkbox"
                   name={"selectAll"}
-                  checked={cartList.every((cart) => cart.checked)}
+                  checked={isCheck}
                   onChange={function (e) {
                     if (e.target.name === "selectAll") {
                       const newCart = { checked: e.target.checked };
