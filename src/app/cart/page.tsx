@@ -17,11 +17,11 @@ function fetchCartList() {
 export default function Cart() {
   const [cartList, setCartList] = useState<Cart[]>([]);
   // const productList: Cart[] = use(fetchCartList());
-  // useEffect(function () {
-  //   CartRepository.getList().then(function (data) {
-  //     setCartList(data);
-  //   });
-  // }, []);
+  useEffect(function () {
+    CartRepository.getList().then(function (data) {
+      setCartList(data);
+    });
+  }, []);
   // TODO. count랑 같이 계산 하기 cart.products.count +
   const checkedTotalPrice = cartList.reduce((acc, cur) => {
     if (cur.checked) {

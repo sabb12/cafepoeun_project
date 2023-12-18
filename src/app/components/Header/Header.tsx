@@ -141,7 +141,7 @@ export default function Header() {
             </div>
           </div>
           <div className={styles.buttonContainer}>
-            {!isLogin && (
+            {!isLogin ? (
               <button
                 className={styles.loginButton}
                 onClick={function () {
@@ -149,6 +149,16 @@ export default function Header() {
                 }}
               >
                 {i18n.t("logIn")}
+              </button>
+            ) : (
+              <button
+                className={styles.loginButton}
+                onClick={function () {
+                  localStorage.removeItem("kakaoCode");
+                  router.push(ROUTE.home);
+                }}
+              >
+                {"로그아웃"}
               </button>
             )}
           </div>
