@@ -6,7 +6,7 @@ import i18n, { Locale, setLocale } from "@/i18n/locale";
 import { useRouter } from "next/navigation";
 import { ROUTE } from "@/routers";
 import { PiShoppingCartBold } from "react-icons/pi";
-
+import * as gtag from "@/lib/gtag";
 // type Props = {
 //   onClick?: () => void;
 //   showSearch: boolean;
@@ -145,6 +145,12 @@ export default function Header() {
               <button
                 className={styles.loginButton}
                 onClick={function () {
+                  gtag.event({
+                    action: "submit_form",
+                    category: "Contact",
+                    label: "hi",
+                    value: "bye",
+                  });
                   router.push(ROUTE.login);
                 }}
               >

@@ -18,7 +18,7 @@
         "name": "next"
       }
     ],
-
+    "types": ["@types/gtag.js"],
     "paths": {
       "@/*": ["./src/*"],
       "@/components/*": ["./src/app/components/*"],
